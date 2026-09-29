@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UniCalc — каталог математических, физических и химических формул с интерактивными вычислениями и подробными решениями.">
+    <link rel="stylesheet" href="src/calculators.css">
+    <title>UniCalc — Все калькуляторы</title>
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <a href="index.html" class="logo-btn">UniCalc</a>
+        <nav aria-label="Основная навигация">
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Главная</a></li>
+                <li><a href="calculators.html" class="nav-link active">Все калькуляторы</a></li>
+                <li><a href="about.html" class="nav-link">О проекте</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-container calculators-page">
+    <section class="hero-section calculators-hero">
+        <div class="eyebrow">UniCalc · Формулы</div>
+        <h1 class="main-title">Все калькуляторы</h1>
+        <p class="main-subtitle">Выберите формулу, укажите известные величины и получите результат. Для математики доступны простой ответ, подробное решение и графики.</p>
+        <div class="search-form" role="search">
+            <input type="search" id="searchInput" placeholder="Поиск по формуле, величине или разделу..." class="search-input" autocomplete="off">
+            <button type="button" class="search-btn" id="clearSearch" aria-label="Очистить поиск">Очистить</button>
+        </div>
+    </section>
+
+    <section class="subject-switcher" aria-label="Выбор предмета">
+        <div class="subject-heading">
+            <div>
+                <span class="section-eyebrow">Каталог</span>
+                <h2>Выберите предмет</h2>
+            </div>
+            <p>Все формулы собраны по предметам, чтобы нужный раздел было проще найти.</p>
+        </div>
+        <div class="subject-buttons" role="tablist" aria-label="Предметы">
+            <button class="subject-btn active" type="button" role="tab" aria-selected="true" data-subject="all">
+                <span class="subject-icon">∑</span>
+                <span class="subject-copy"><strong>Все предметы</strong><small>Общий каталог</small></span>
+                <span class="subject-count" data-count-for="all">0</span>
+            </button>
+            <button class="subject-btn" type="button" role="tab" aria-selected="false" data-subject="chemistry">
+                <span class="subject-icon">⚗</span>
+                <span class="subject-copy"><strong>Химия</strong><small>Вещества и реакции</small></span>
+                <span class="subject-count" data-count-for="chemistry">0</span>
+            </button>
+            <button class="subject-btn" type="button" role="tab" aria-selected="false" data-subject="physics">
+                <span class="subject-icon">◉</span>
+                <span class="subject-copy"><strong>Физика</strong><small>Механика и поля</small></span>
+                <span class="subject-count" data-count-for="physics">0</span>
+            </button>
+            <button class="subject-btn" type="button" role="tab" aria-selected="false" data-subject="math">
+                <span class="subject-icon">√</span>
+                <span class="subject-copy"><strong>Математика</strong><small>Элементарная и высшая</small></span>
+                <span class="subject-count" data-count-for="math">0</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="periodic-table-section" id="periodicTableSection" hidden aria-labelledby="periodicTableTitle">
+        <div class="periodic-head">
+            <div>
+                <span class="section-eyebrow">Химия · Справочник</span>
+                <h2 id="periodicTableTitle">Интерактивная таблица Менделеева</h2>
+                <p>Нажмите на элемент, чтобы посмотреть основные свойства. Поиск понимает номер, символ и русское название.</p>
+            </div>
+            <div class="periodic-tools">
+                <label class="periodic-search-wrap">
+                    <span class="sr-only">Поиск элемента</span>
+                    <input id="periodicSearch" type="search" placeholder="Например: Fe, железо или 26" autocomplete="off">
+                </label>
+                <span class="periodic-result-count" id="periodicResultCount">118 элементов</span>
+            </div>
+        </div>
+
+        <div class="periodic-layout">
+            <div class="periodic-table-scroll" aria-label="Периодическая таблица химических элементов">
+                <div class="periodic-grid" id="periodicTableGrid"></div>
+                <div class="periodic-series">
+                    <div class="series-label"><span>57–71</span><strong>Лантаноиды</strong></div>
+                    <div class="series-grid" id="lanthanidesGrid"></div>
+                    <div class="series-label"><span>89–103</span><strong>Актиноиды</strong></div>
+                    <div class="series-grid" id="actinidesGrid"></div>
+                </div>
+            </div>
+
+            <aside class="periodic-detail" id="periodicDetail" aria-live="polite">
+                <div class="periodic-detail-placeholder">
+                    <span class="periodic-detail-icon">118</span>
+                    <strong>Выберите элемент</strong>
+                    <p>Здесь появятся атомный номер, масса, период, группа и блок.</p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="periodic-legend" aria-label="Легенда блоков">
+            <span><i class="legend-dot block-s"></i>s-блок</span>
+            <span><i class="legend-dot block-p"></i>p-блок</span>
+            <span><i class="legend-dot block-d"></i>d-блок</span>
+            <span><i class="legend-dot block-f"></i>f-блок</span>
+        </div>
+    </section>
+
+    <section class="math-guide" id="mathGuide" hidden aria-labelledby="mathGuideTitle">
+        <div class="math-guide-head">
+            <div>
+                <span class="section-eyebrow">Математика · Выгодский</span>
+                <h2 id="mathGuideTitle">Элементарная и высшая математика</h2>
+                <p>Формулы собраны по крупным разделам справочников. Выберите раздел ниже, затем откройте нужную формулу.</p>
+            </div>
+            <div class="math-guide-note"><span>2 режима</span><strong>Ответ или решение</strong><small>Переключить режим можно уже после расчёта.</small></div>
+        </div>
+        <div class="math-guide-grid">
+            <article class="math-guide-card">
+                <span class="math-branch-badge">Элементарная</span>
+                <strong>Школа и базовый курс</strong>
+                <p>Арифметика, алгебра, уравнения, прогрессии, комбинаторика, планиметрия, стереометрия, тригонометрия, функции и графики.</p>
+            </article>
+            <article class="math-guide-card">
+                <span class="math-branch-badge higher">Высшая</span>
+                <strong>Вузовский курс</strong>
+                <p>Аналитическая геометрия, пределы, производные, интегралы, ряды, функции нескольких переменных, дифференциальные уравнения и комплексные числа.</p>
+            </article>
+            <article class="math-guide-card">
+                <span class="math-branch-badge">Графики</span>
+                <strong>Визуальная проверка</strong>
+                <p>Для функций и задач, где это уместно, результат сопровождается интерактивной отрисовкой графика прямо в карточке.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="formula-toolbar" aria-label="Фильтры калькуляторов">
+        <div class="topic-filter-group">
+            <span class="filter-caption">Раздел</span>
+            <div class="filter-buttons" id="topicFilters"></div>
+        </div>
+        <div class="result-count" id="resultCount">Загрузка...</div>
+    </section>
+
+    <section class="formula-grid" id="formulaGrid" aria-live="polite"></section>
+    <section class="subject-empty" id="subjectEmpty" hidden aria-live="polite">
+        <div class="subject-empty-icon">⌕</div>
+        <h2>Ничего не найдено</h2>
+        <p>Попробуйте изменить поисковый запрос или выбрать другой раздел.</p>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-newsletter">
+            <h3 class="newsletter-title">Подписка на рассылку:</h3>
+            <form class="newsletter-form" onsubmit="event.preventDefault();">
+                <input type="email" placeholder="Введите ваш email..." class="newsletter-input" required>
+                <button type="submit" class="newsletter-btn">Подписаться</button>
+            </form>
+        </div>
+        <div class="footer-content">
+            <div class="footer-copyright">© 2026 UniCalc. Все права защищены.</div>
+            <div class="footer-socials">
+                <a href="#" class="social-link" aria-label="YouTube"><svg viewBox="0 0 24 24" class="social-icon"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+                <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" class="social-icon"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                <a href="#" class="social-link" aria-label="Telegram"><svg viewBox="0 0 24 24" class="social-icon"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></a>
+            </div>
+            <div class="footer-contacts">
+                <h4 class="contacts-title">Контактная информация:</h4>
+                <p>Электронная почта: <a href="mailto:support@unicalc.ru">support@unicalc.ru</a></p>
+                <p>Телефон: <a href="tel:+77077077777">+7 (707) 707 - 77 - 77</a></p>
+                <p>Адрес: 123 улица, Город, Страна</p>
+            </div>
+        </div>
+    </div>
+    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Наверх">
+        <svg viewBox="0 0 24 24" class="arrow-icon"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+</footer>
+<script type="module" src="src/calculators.js"></script>
+</body>
+</html>

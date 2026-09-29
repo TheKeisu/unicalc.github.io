@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@chemistry/formula": "^3.6.5"
+  }
+}

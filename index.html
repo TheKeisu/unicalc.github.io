@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniCalc — Умный калькулятор</title>
+    <link rel="stylesheet" href="src/index.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-btn">UniCalc</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link active">Главная</a></li>
+                    <li><a href="calculators.html" class="nav-link">Все калькуляторы</a></li>
+                    <li><a href="about.html" class="nav-link">О проекте</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero-section">
+            <h1 class="main-title">Умные вычисления для учебы и науки</h1>
+            <p class="main-subtitle">Быстрые точные решения: от линейной алгебры и физики до химических реакций в одном месте.</p>
+
+            <form action="calculators.html" class="search-form">
+                <input type="text" placeholder="Введите формулу или раздел..." class="search-input">
+                <button type="submit" class="search-btn">Найти</button>
+            </form>
+        </section>
+
+        <section class="cards-grid">
+            <a href="calculators.html#math" class="card">
+                <div class="card-icon">
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0l12.6 12.6z"/>
+                        <path d="m14.5 12.5 2-2"/>
+                        <path d="m11.5 9.5 2-2"/>
+                        <path d="m8.5 6.5 2-2"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Математика</h2>
+                <p class="card-desc">Матрицы, интегралы, уравнения, предел функции и векторная алгебра.</p>
+            </a>
+
+            <a href="calculators.html#physics" class="card">
+                <div class="card-icon">
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+                        <ellipse cx="12" cy="12" rx="9" ry="3.5" />
+                        <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(60 12 12)" />
+                        <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(120 12 12)" />
+                    </svg>
+                </div>
+                <h2 class="card-title">Физика</h2>
+                <p class="card-desc">Механика, термодинамика, электродинамика, оптика и квантовые состояния.</p>
+            </a>
+
+            <a href="calculators.html#chemistry" class="card">
+                <div class="card-icon">
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M10 2v7.31L4.75 18.1A2 2 0 0 0 6.47 21h11.06a2 2 0 0 0 1.72-2.9L14 9.31V2"/>
+                        <path d="M8.5 2h7"/>
+                        <path d="M7 16h10"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Химия</h2>
+                <p class="card-desc">Молярные массы, балансировка реакций, стехиометрия и растворы.</p>
+            </a>
+        </section>
+    </main>
+
+    <footer class="footer">
+    <div class="footer-container">
+        
+        <!-- Секция подписки (сверху по центру) -->
+        <div class="footer-newsletter">
+            <h3 class="newsletter-title">Подписка на рассылку:</h3>
+            <form class="newsletter-form" onsubmit="event.preventDefault();">
+                <input type="email" placeholder="Введите ваш email..." class="newsletter-input" required>
+                <button type="submit" class="newsletter-btn">Подписаться</button>
+            </form>
+        </div>
+
+        <!-- Нижняя горизонтальная линия -->
+        <div class="footer-content">
+            
+            <!-- Левая колонка: Авторские права -->
+            <div class="footer-copyright">
+                © 2026 UniCalc. Все права защищены.
+            </div>
+
+            <!-- Центральная колонка: Соцсети -->
+            <div class="footer-socials">
+                <!-- YouTube -->
+                <a href="#" class="social-link" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24" class="social-icon">
+                        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                    </svg>
+                </a>
+                <!-- Instagram -->
+                <a href="#" class="social-link" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" class="social-icon">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+                <!-- Telegram -->
+                <a href="#" class="social-link" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24" class="social-icon">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Правая колонка: Контактная информация -->
+            <div class="footer-contacts">
+                <h4 class="contacts-title">Контактная информация:</h4>
+                <p>Электронная почта: <a href="mailto:support@unicalc.ru">support@unicalc.ru</a></p>
+                <p>Телефон: <a href="tel:+77077077777">+7 (707) 707 - 77 - 77</a></p>
+                <p>Адрес: 123 улица, Город, Страна</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Кнопка наверх со стрелкой -->
+    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+        <svg viewBox="0 0 24 24" class="arrow-icon">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+</footer>
+
+</body>
+</html>

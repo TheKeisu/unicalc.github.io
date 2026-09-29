@@ -1,0 +1,139 @@
+{
+  "sections": [
+    {
+      "path": "elementary/arithmetic",
+      "label": "Арифметика",
+      "branch": "elementary",
+      "formula_count": 26,
+      "cases": 26
+    },
+    {
+      "path": "elementary/algebra",
+      "label": "Алгебра",
+      "branch": "elementary",
+      "formula_count": 23,
+      "cases": 24
+    },
+    {
+      "path": "elementary/equations_inequalities",
+      "label": "Уравнения и неравенства",
+      "branch": "elementary",
+      "formula_count": 10,
+      "cases": 10
+    },
+    {
+      "path": "elementary/progressions",
+      "label": "Последовательности и прогрессии",
+      "branch": "elementary",
+      "formula_count": 10,
+      "cases": 10
+    },
+    {
+      "path": "elementary/combinatorics",
+      "label": "Соединения и комбинаторика",
+      "branch": "elementary",
+      "formula_count": 6,
+      "cases": 6
+    },
+    {
+      "path": "elementary/planimetry",
+      "label": "Планиметрия",
+      "branch": "elementary",
+      "formula_count": 26,
+      "cases": 26
+    },
+    {
+      "path": "elementary/stereometry",
+      "label": "Стереометрия",
+      "branch": "elementary",
+      "formula_count": 23,
+      "cases": 23
+    },
+    {
+      "path": "elementary/trigonometry",
+      "label": "Тригонометрия",
+      "branch": "elementary",
+      "formula_count": 17,
+      "cases": 17
+    },
+    {
+      "path": "elementary/functions_graphs",
+      "label": "Функции и графики",
+      "branch": "elementary",
+      "formula_count": 13,
+      "cases": 13
+    },
+    {
+      "path": "higher/analytic_geometry_plane",
+      "label": "Аналитическая геометрия на плоскости",
+      "branch": "higher",
+      "formula_count": 18,
+      "cases": 20
+    },
+    {
+      "path": "higher/analytic_geometry_space",
+      "label": "Аналитическая геометрия в пространстве",
+      "branch": "higher",
+      "formula_count": 11,
+      "cases": 11
+    },
+    {
+      "path": "higher/limits",
+      "label": "Основы математического анализа — пределы",
+      "branch": "higher",
+      "formula_count": 7,
+      "cases": 7
+    },
+    {
+      "path": "higher/differential_calculus",
+      "label": "Дифференциальное исчисление",
+      "branch": "higher",
+      "formula_count": 17,
+      "cases": 17
+    },
+    {
+      "path": "higher/integral_calculus",
+      "label": "Интегральное исчисление",
+      "branch": "higher",
+      "formula_count": 15,
+      "cases": 15
+    },
+    {
+      "path": "higher/series_fourier",
+      "label": "Ряды, степенные и ряды Фурье",
+      "branch": "higher",
+      "formula_count": 11,
+      "cases": 11
+    },
+    {
+      "path": "higher/multivariable",
+      "label": "Функции нескольких переменных",
+      "branch": "higher",
+      "formula_count": 11,
+      "cases": 11
+    },
+    {
+      "path": "higher/differential_equations",
+      "label": "Дифференциальные уравнения",
+      "branch": "higher",
+      "formula_count": 6,
+      "cases": 6
+    },
+    {
+      "path": "higher/remarkable_curves",
+      "label": "Некоторые замечательные кривые",
+      "branch": "higher",
+      "formula_count": 8,
+      "cases": 8
+    },
+    {
+      "path": "higher/complex_numbers",
+      "label": "Комплексные числа",
+      "branch": "higher",
+      "formula_count": 17,
+      "cases": 17
+    }
+  ],
+  "formula_total": 275,
+  "case_total": 278
+}
