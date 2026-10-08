@@ -11,6 +11,12 @@
 </head>
 <body>
 
+    <div class="parallax-scene" aria-hidden="true">
+        <span class="parallax-glow parallax-glow--one"></span>
+        <span class="parallax-glow parallax-glow--two"></span>
+        <span class="parallax-glow parallax-glow--three"></span>
+    </div>
+
     <header class="header">
         <div class="nav-container">
             <a href="index.html" class="logo-btn">UniCalc</a>
@@ -26,11 +32,11 @@
 
     <main class="main-container">
         <section class="hero-section">
-            <h1 class="main-title">Умные вычисления для учебы и науки</h1>
-            <p class="main-subtitle">Быстрые точные решения: от линейной алгебры и физики до химических реакций в одном месте.</p>
+            <h1 class="main-title">Расчёты для учёбы и науки</h1>
+            <p class="main-subtitle">Калькуляторы по математике, физике и химии.</p>
 
             <form action="calculators.html" class="search-form">
-                <input type="text" placeholder="Введите формулу или раздел..." class="search-input">
+                <input type="text" placeholder="Формула или тема" class="search-input">
                 <button type="submit" class="search-btn">Найти</button>
             </form>
         </section>
@@ -135,7 +141,7 @@
     </div>
 
     <!-- Кнопка наверх со стрелкой -->
-    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'auto'});">
         <svg viewBox="0 0 24 24" class="arrow-icon">
             <polyline points="18 15 12 9 6 15"></polyline>
         </svg>
@@ -184,6 +190,7 @@
             }
         }
     </script>
+    <script type="module" src="src/parallax.js"></script>
 
 </body>
 </html>

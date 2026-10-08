@@ -8,6 +8,11 @@
     <title>UniCalc — Все калькуляторы</title>
 </head>
 <body>
+<div class="parallax-scene" aria-hidden="true">
+    <span class="parallax-glow parallax-glow--one"></span>
+    <span class="parallax-glow parallax-glow--two"></span>
+    <span class="parallax-glow parallax-glow--three"></span>
+</div>
 <header class="header">
     <div class="nav-container">
         <a href="index.html" class="logo-btn">UniCalc</a>
@@ -25,9 +30,9 @@
     <section class="hero-section calculators-hero">
         <div class="eyebrow">UniCalc · Формулы</div>
         <h1 class="main-title">Все калькуляторы</h1>
-        <p class="main-subtitle">Выберите формулу, укажите известные величины и получите результат. Для математики доступны простой ответ, подробное решение и графики.</p>
+        <p class="main-subtitle">Выберите формулу и введите значения, чтобы получить результат.</p>
         <div class="search-form" role="search">
-            <input type="search" id="searchInput" placeholder="Поиск по формуле, величине или разделу..." class="search-input" autocomplete="off">
+            <input type="search" id="searchInput" placeholder="Поиск по формуле, теме или величине" class="search-input" autocomplete="off">
             <button type="button" class="search-btn" id="clearSearch" aria-label="Очистить поиск">Очистить</button>
         </div>
     </section>
@@ -139,18 +144,37 @@
     <section class="formula-toolbar" aria-label="Фильтры калькуляторов">
         <div class="topic-filter-group">
             <span class="filter-caption">Раздел</span>
-            <div class="filter-buttons" id="topicFilters"></div>
+            <div class="topic-filter-options" id="topicFilters"></div>
         </div>
         <div class="result-count" id="resultCount">Загрузка...</div>
     </section>
 
     <section class="formula-grid" id="formulaGrid" aria-live="polite"></section>
+    <div class="formula-load-more-wrap" id="formulaLoadMoreWrap" hidden>
+        <button class="formula-load-more" id="loadMoreFormulas" type="button" aria-controls="formulaGrid" aria-expanded="false" hidden>Показать все формулы</button>
+    </div>
     <section class="subject-empty" id="subjectEmpty" hidden aria-live="polite">
         <div class="subject-empty-icon">⌕</div>
         <h2>Ничего не найдено</h2>
         <p>Попробуйте изменить поисковый запрос или выбрать другой раздел.</p>
     </section>
 </main>
+
+<div class="calculator-modal" id="calculatorModal" aria-hidden="true" hidden>
+    <div class="calculator-modal-backdrop" data-modal-dismiss></div>
+    <section class="calculator-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="calculatorModalTitle" tabindex="-1">
+        <header class="calculator-modal-header">
+            <div>
+                <span class="calculator-modal-eyebrow">UniCalc · Калькулятор</span>
+                <h2 id="calculatorModalTitle">Расчёт</h2>
+            </div>
+            <button class="calculator-modal-close" id="calculatorModalClose" type="button" aria-label="Закрыть калькулятор">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+            </button>
+        </header>
+        <div class="calculator-modal-body" id="calculatorModalBody"></div>
+    </section>
+</div>
 
 <footer class="footer">
     <div class="footer-container">
@@ -176,10 +200,11 @@
             </div>
         </div>
     </div>
-    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Наверх">
+    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'auto'});" aria-label="Наверх">
         <svg viewBox="0 0 24 24" class="arrow-icon"><polyline points="18 15 12 9 6 15"></polyline></svg>
     </button>
 </footer>
 <script type="module" src="src/calculators.js"></script>
+<script type="module" src="src/parallax.js"></script>
 </body>
 </html>

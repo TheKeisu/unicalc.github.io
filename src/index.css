@@ -1,4 +1,4 @@
-:root {
+        :root {
             --bg-gradient: radial-gradient(circle at top center, #1e293b 0%, #0f172a 60%, #020617 100%);
             --emerald-main: #34d399;
             --emerald-light: #6ee7b7;
@@ -7,6 +7,16 @@
             --text-muted: #94a3b8;
             --card-bg: rgba(30, 41, 59, 0.5);
             --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
         }
 
         * {
@@ -22,6 +32,65 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+        }
+
+        .parallax-scene {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header,
+        .main-container,
+        .footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            position: sticky;
+        }
+
+        .parallax-glow {
+            position: absolute;
+            display: block;
+            width: clamp(280px, 42vw, 620px);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            filter: blur(38px);
+            opacity: 0.52;
+            will-change: transform;
+        }
+
+        .parallax-glow--one {
+            top: 0%;
+            left: -15%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.78) 0%, rgba(16, 185, 129, 0.32) 38%, transparent 73%);
+        }
+
+        .parallax-glow--two {
+            top: 34%;
+            right: -16%;
+            width: clamp(240px, 34vw, 500px);
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.72) 0%, rgba(20, 184, 166, 0.28) 40%, transparent 74%);
+            opacity: 0.46;
+        }
+
+        .parallax-glow--three {
+            top: 67%;
+            left: 18%;
+            width: clamp(220px, 30vw, 440px);
+            background: radial-gradient(circle, rgba(5, 150, 105, 0.72) 0%, rgba(5, 150, 105, 0.25) 40%, transparent 74%);
+            opacity: 0.4;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .parallax-glow {
+                will-change: auto;
+                filter: blur(60px);
+            }
         }
 
         .header {
