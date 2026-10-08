@@ -462,7 +462,8 @@
 
 /* Кнопка наверх со стрелкой */
 .scroll-top-btn {
-    position: absolute;
+    position: fixed;
+    z-index: 150;
     bottom: 32px;
     right: 32px;
     width: 48px;
@@ -558,8 +559,41 @@
     padding-right: 118px;
 }
 
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-decoration,
+.search-input::-ms-clear {
+    display: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 .calculators-hero .search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     font-size: 0.86rem;
+}
+
+.search-action-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.search-action-icon--clear,
+.search-btn.is-clear .search-action-icon--find {
+    display: none;
+}
+
+.search-btn.is-clear .search-action-icon--clear {
+    display: block;
 }
 
 
@@ -647,6 +681,32 @@
     color: var(--emerald-main);
     border: 1px solid rgba(52,211,153,0.14);
     font-weight: 800;
+}
+
+.subject-icon img {
+    display: block;
+    width: 21px;
+    height: 21px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(78%) sepia(25%) saturate(920%) hue-rotate(106deg) brightness(91%) contrast(91%);
+}
+
+.subject-icon--all {
+    grid-template-columns: repeat(2, 12px);
+    grid-template-rows: repeat(2, 12px);
+    gap: 2px;
+    align-content: center;
+    justify-content: center;
+}
+
+.subject-icon--all img {
+    width: 12px;
+    height: 12px;
+}
+
+.subject-icon--all img:last-child {
+    grid-column: 1 / 3;
+    justify-self: center;
 }
 
 .subject-copy {
@@ -883,15 +943,35 @@
     width: 42px;
     height: 42px;
     flex: 0 0 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
     border-radius: 14px;
     background: rgba(52, 211, 153, 0.09);
     border: 1px solid rgba(52, 211, 153, 0.18);
-    color: var(--emerald-main);
-    font-size: 1.2rem;
-    font-weight: 800;
+    overflow: hidden;
+}
+
+.formula-icon img {
+    display: block;
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(78%) sepia(25%) saturate(920%) hue-rotate(106deg) brightness(91%) contrast(91%);
+}
+
+.icon-attribution {
+    margin: 22px 0 0;
+    color: #8393a7;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.icon-attribution a {
+    color: #86efcc;
+    text-decoration: underline;
+    text-decoration-color: rgba(134, 239, 204, 0.35);
+    text-underline-offset: 2px;
 }
 
 .formula-title-wrap {
@@ -1149,6 +1229,7 @@
 }
 
 .calculator-modal-close {
+    position: relative;
     flex: none;
     display: grid;
     place-items: center;
@@ -1174,12 +1255,19 @@
 }
 
 .calculator-modal-close svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
     width: 19px;
     height: 19px;
+    margin: 0;
     fill: none;
     stroke: currentColor;
     stroke-width: 2;
     stroke-linecap: round;
+    stroke-linejoin: round;
+    transform: translate(-50%, -50%);
 }
 
 .calculator-modal-body {
@@ -1260,6 +1348,56 @@ body.calculator-modal-open {
     margin-bottom: 17px;
     color: var(--text-muted);
     font-size: 0.8rem;
+}
+
+.answer-format-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(150px, 0.8fr);
+    gap: 12px;
+    margin: 14px 0 0;
+    padding: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.42);
+}
+
+.answer-format-field {
+    display: block;
+    min-width: 0;
+    color: #cbd5e1;
+    font-size: 0.76rem;
+}
+
+.answer-format-field > span {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.answer-format-field[hidden] {
+    display: none !important;
+}
+
+.answer-format-select,
+.answer-precision {
+    width: 100%;
+    min-height: 40px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.9);
+    color: var(--text-main);
+    padding: 9px 11px;
+    font: inherit;
+    font-size: 0.8rem;
+}
+
+.answer-format-select:focus-visible,
+.answer-precision:focus-visible {
+    outline: 2px solid var(--emerald-main);
+    outline-offset: 2px;
+}
+
+.answer-format-select {
+    color-scheme: dark;
 }
 
 .mini-formula {
@@ -1623,6 +1761,7 @@ body.calculator-modal-open {
 
     .case-row,
     .calc-form,
+    .answer-format-controls,
     .reaction-grid,
     .reaction-amounts,
     .reaction-result-grid {
@@ -2316,6 +2455,10 @@ body {
 
 .solution-step:first-of-type { border-top: none; padding-top: 0; }
 
+.solution-step-content {
+    min-width: 0;
+}
+
 .solution-step-index {
     width: 27px;
     height: 27px;
@@ -2339,6 +2482,22 @@ body {
 .solution-step p {
     color: var(--text-muted);
     font-size: 0.72rem;
+    line-height: 1.55;
+}
+
+.solution-step .solution-formula {
+    margin: 7px 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(52, 211, 153, 0.12);
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.64);
+    overflow-x: auto;
+}
+
+.solution-step .solution-explanation {
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 0.75rem;
     line-height: 1.55;
 }
 
@@ -2370,10 +2529,37 @@ body {
 
 .solution-known-value {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 8px;
+    padding: 8px 10px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 9px;
+    background: rgba(15, 23, 42, 0.36);
     color: var(--text-muted);
     font-size: 0.74rem;
+}
+
+.solution-known-value > span {
+    display: grid;
+    gap: 2px;
+}
+
+.solution-known-value > span strong {
+    color: #dbeafe;
+}
+
+.solution-known-value > span small,
+.solution-known-value > b small {
+    color: #64748b;
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+.solution-known-value > b {
+    color: var(--emerald-light);
+    font-size: 0.8rem;
 }
 
 .solution-known-value strong,

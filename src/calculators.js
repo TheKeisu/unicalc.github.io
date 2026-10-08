@@ -476,9 +476,81 @@ function formatResult(value) {
   return Number(value.toPrecision(10)).toString();
 }
 
-function resultHtml(output, unit, value, extra = '') {
+function approximateFraction(value) {
+  if (!Number.isFinite(value)) return null;
+  const sign = value < 0 ? -1 : 1;
+  let target = Math.abs(value);
+  let h0 = 0, h1 = 1, k0 = 1, k1 = 0;
+  for (let iteration = 0; iteration < 32; iteration++) {
+    const whole = Math.floor(target);
+    const numerator = whole * h1 + h0;
+    const denominator = whole * k1 + k0;
+    if (denominator > 10000 || !Number.isSafeInteger(numerator)) break;
+    h0 = h1; h1 = numerator; k0 = k1; k1 = denominator;
+    if (Math.abs(value - sign * h1 / k1) <= 1e-11 * Math.max(1, Math.abs(value))) {
+      if (k1 === 1) return String(sign * h1);
+      const divisor = gcd(h1, k1);
+      return `${sign * h1 / divisor}/${k1 / divisor}`;
+    }
+    const remainder = target - whole;
+    if (remainder < 1e-14) break;
+    target = 1 / remainder;
+  }
+  return null;
+}
+
+function formatExactDecimal(value) {
+  if (Object.is(value, -0)) return '0';
+  return String(value);
+}
+
+function answerFormat(panel) {
+  return {
+    mode: panel?.querySelector('.answer-format-select')?.value || 'decimal',
+    digits: Math.max(0, Math.min(15, Number(panel?.querySelector('.answer-precision')?.value ?? 2))),
+  };
+}
+
+function formatAnswer(value, panel) {
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) return value.map(item => formatAnswer(item, panel)).join(', ');
+  if (value && typeof value === 'object') return Object.entries(value).map(([key, item]) => `${key}: ${formatAnswer(item, panel)}`).join('; ');
+  if (!Number.isFinite(value)) throw new Error('Для этих исходных данных результат не определён. Проверьте введённые значения.');
+  const { mode, digits } = answerFormat(panel);
+  if (mode === 'rounded') return value.toFixed(digits).replace('.', ',');
+  if (mode === 'fraction') {
+    const decimal = formatExactDecimal(value);
+    const fractionalPart = decimal.split('.')[1]?.split(/[eE]/)[0] || '';
+    if (fractionalPart.length >= 6 || /e-(?:[5-9]|[1-9]\d)/i.test(decimal)) {
+      return approximateFraction(value) || decimal;
+    }
+    return decimal;
+  }
+  return formatExactDecimal(value);
+}
+
+function resultHtml(output, unit, value, extra = '', panel = null) {
   const unitPart = unit ? `<span class="result-unit">${escapeHtml(unit)}</span>` : '';
-  return `<div class="result-label">${escapeHtml(output)}</div><div class="result-value">${escapeHtml(formatResult(value))} ${unitPart}</div>${extra}`;
+  return `<div class="result-label">${escapeHtml(output)}</div><div class="result-value">${escapeHtml(formatAnswer(value, panel))} ${unitPart}</div>${extra}`;
+}
+
+function answerFormatControls() {
+  return `<div class="answer-format-controls"><label class="answer-format-field"><span>Формат ответа</span><select class="answer-format-select"><option value="decimal">Точный ответ (десятичный)</option><option value="fraction">Обыкновенная дробь для длинного ответа</option><option value="rounded">Округлить до знаков</option></select></label><label class="answer-format-field answer-precision-wrap" hidden><span>Знаков после запятой</span><input class="answer-precision" type="number" min="0" max="15" step="1" value="2" inputmode="numeric"></label></div>`;
+}
+
+function setupAnswerFormat(panel, form = panel.querySelector('.calc-form')) {
+  if (panel.__answerFormatSetup) return;
+  const select = panel.querySelector('.answer-format-select');
+  const precisionWrap = panel.querySelector('.answer-precision-wrap');
+  if (!select) return;
+  const update = () => {
+    precisionWrap.hidden = select.value !== 'rounded';
+    if (panel.__calculationState && form) form.requestSubmit();
+    else if (panel.__reactionResult) renderReactionResult(panel);
+  };
+  select.addEventListener('change', update);
+  panel.querySelector('.answer-precision')?.addEventListener('change', update);
+  panel.__answerFormatSetup = true;
 }
 
 function validateInputs(values, metas) {
@@ -511,6 +583,7 @@ function createStandardCalculator(formula) {
     <div class="calc-mode-switch" role="group" aria-label="Режим решения"><span class="mode-caption">Режим решения</span><button type="button" class="mode-btn active" data-mode="simple" aria-pressed="true">Кратко</button><button type="button" class="mode-btn" data-mode="detailed" aria-pressed="false">Подробное решение</button></div>
     <div class="case-description"></div>
     <form class="calc-form" novalidate></form>
+    ${answerFormatControls()}
     <div class="calc-message" aria-live="polite"></div>
   </div>`;
 }
@@ -588,7 +661,7 @@ function drawGraph(canvas, spec) {
 
 function renderMathSolution(panel, formula, meta, values, result, detailed) {
   const message = panel.querySelector('.calc-message');
-  let content = resultHtml(meta.output, meta.SI, result);
+  let content = resultHtml(meta.output, meta.SI, result, '', panel);
   if (detailed) {
     const solverFn = meta.solver && formula.solver?.[meta.solver];
     if (typeof solverFn !== 'function') throw new Error(`В ядре не найден подробный решатель ${meta.solver || 'solver'}.`);
@@ -596,6 +669,14 @@ function renderMathSolution(panel, formula, meta, values, result, detailed) {
     const steps = Array.isArray(solution?.steps) ? solution.steps : [];
     const stepHtml = steps.map((step, index) => `<div class="solution-step"><span class="solution-step-index">${index + 1}</span><div><strong>${escapeHtml(step.title || `Шаг ${index + 1}`)}</strong><p class="solution-formula">${formatFormulaMarkup(step.content || '')}</p></div></div>`).join('');
     content += `<div class="solution-steps"><div class="solution-heading">Подробное решение</div>${stepHtml}</div>`;
+    const { expression, substitutions } = substitutedFormula(formula, meta, values);
+    const leftHandSide = expression.split('=')[0]?.trim() || '';
+    const computedLeft = substitutions.length ? evaluateBasicExpression(leftHandSide) : null;
+    if (computedLeft !== null) {
+      const step = solutionStep(steps.length + 1, 'Подставляем числа и считаем', `<p class="solution-formula">${formatFormulaMarkup(`${leftHandSide} = ${formatExactDecimal(computedLeft)}`)}</p>`);
+      const stepsContainer = content.lastIndexOf('</div>');
+      content = `${content.slice(0, stepsContainer)}${step}${content.slice(stepsContainer)}`;
+    }
     content += `<div class="solution-data"><span>Исходные данные</span><div>${formatMathInputs(meta, values)}</div></div>`;
   }
   if (meta.graphFunction && formula.calculations?.[meta.graphFunction]) {
@@ -615,6 +696,85 @@ function renderMathSolution(panel, formula, meta, values, result, detailed) {
   message.classList.add('success');
 }
 
+function substitutedFormula(formula, meta, values) {
+  let expression = String(formula.formula_view || '');
+  const substitutions = [];
+  meta.inputs.forEach(([key, label], index) => {
+    const value = values[index];
+    if (typeof value !== 'number' || !Number.isFinite(value)) return;
+    const token = String(key).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const matcher = new RegExp(`(?<![\\p{L}\\p{N}_])${token}(?![\\p{L}\\p{N}_])`, 'gu');
+    if (matcher.test(expression)) {
+      expression = expression.replace(matcher, formatExactDecimal(value));
+      substitutions.push({ key, label, value });
+    }
+  });
+  return { expression, substitutions };
+}
+
+function evaluateBasicExpression(source) {
+  const text = String(source).replace(/[×·]/g, '*').replace(/[÷]/g, '/').replace(/[−–]/g, '-');
+  const tokens = [];
+  const matcher = /\s*(?:(\d+(?:\.\d*)?(?:e[+-]?\d+)?)|(π|pi)|([()+\-*/^]))/iy;
+  let offset = 0;
+  while (offset < text.length) {
+    matcher.lastIndex = offset;
+    const match = matcher.exec(text);
+    if (!match) return null;
+    tokens.push(match[1] ? Number(match[1]) : match[2] ? Math.PI : match[3]);
+    offset = matcher.lastIndex;
+  }
+  let position = 0;
+  const primary = () => {
+    const token = tokens[position++];
+    if (token === '(') {
+      const value = addSubtract();
+      if (tokens[position++] !== ')') throw new Error('Незакрытая скобка');
+      return value;
+    }
+    if (token === '-') return -primary();
+    if (token === '+') return primary();
+    if (typeof token === 'number') return token;
+    throw new Error('Некорректное выражение');
+  };
+  const power = () => {
+    const base = primary();
+    if (tokens[position] === '^') {
+      position++;
+      return base ** power();
+    }
+    return base;
+  };
+  const multiplyDivide = () => {
+    let value = power();
+    while (tokens[position] === '*' || tokens[position] === '/') {
+      const operator = tokens[position++];
+      const next = power();
+      value = operator === '*' ? value * next : value / next;
+    }
+    return value;
+  };
+  const addSubtract = () => {
+    let value = multiplyDivide();
+    while (tokens[position] === '+' || tokens[position] === '-') {
+      const operator = tokens[position++];
+      const next = multiplyDivide();
+      value = operator === '+' ? value + next : value - next;
+    }
+    return value;
+  };
+  try {
+    const value = addSubtract();
+    return position === tokens.length && Number.isFinite(value) ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function solutionStep(index, title, content) {
+  return `<div class="solution-step"><span class="solution-step-index">${index}</span><div class="solution-step-content"><strong>${escapeHtml(title)}</strong>${content}</div></div>`;
+}
+
 function renderDetailedCalculation(panel, formula, meta, values, result) {
   const solverFn = meta.solver && formula.solver?.[meta.solver];
   if (formula.subjectKey === 'math' && typeof solverFn === 'function') {
@@ -623,11 +783,30 @@ function renderDetailedCalculation(panel, formula, meta, values, result) {
   }
 
   const message = panel.querySelector('.calc-message');
-  const knownValues = meta.inputs.map(([, label], index) => {
-    const value = typeof values[index] === 'number' ? formatResult(values[index]) : values[index];
-    return `<div class="solution-known-value"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
+  const knownValues = meta.inputs.map(([key, label], index) => {
+    const value = typeof values[index] === 'number' ? formatExactDecimal(values[index]) : values[index];
+    const unit = typeof values[index] === 'number' ? inferUnit(formula.groupKey, formula.key, key, label) : '';
+    return `<div class="solution-known-value"><span><strong>${escapeHtml(key)}</strong><small>${escapeHtml(label)}</small></span><b>${escapeHtml(value)}${unit ? ` <small>${escapeHtml(unit)}</small>` : ''}</b></div>`;
   }).join('');
-  message.innerHTML = `${resultHtml(meta.output, meta.SI, result)}<div class="solution-steps"><div class="solution-heading">Подробный расчёт</div><div class="solution-step"><span class="solution-step-index">1</span><div><strong>Исходная формула</strong><p class="solution-formula">${formatFormulaMarkup(formula.formula_view)}</p></div></div><div class="solution-step"><span class="solution-step-index">2</span><div><strong>Исходные данные</strong><div class="solution-data-list">${knownValues}</div></div></div><div class="solution-step"><span class="solution-step-index">3</span><div><strong>Результат</strong><p>${escapeHtml(meta.output)} = ${escapeHtml(formatResult(result))}${meta.SI ? ` ${escapeHtml(meta.SI)}` : ''}</p></div></div></div>`;
+  const { expression, substitutions } = substitutedFormula(formula, meta, values);
+  const rightHandSide = expression.includes('=') ? expression.slice(expression.indexOf('=') + 1).trim() : '';
+  const intermediate = rightHandSide ? evaluateBasicExpression(rightHandSide) : null;
+  let substitutionContent = substitutions.length
+    ? `<p class="solution-formula">${formatFormulaMarkup(expression)}</p><p class="solution-explanation">Вместо известных величин подставлены значения из условия.</p>`
+    : `<p>Для выбранной задачи подставляем введённые значения в исходную формулу и вычисляем искомую величину.</p>`;
+  let calculationContent = `<p class="solution-explanation">Выполняем необходимые арифметические действия${substitutions.length ? ' в полученном выражении' : ''}.</p>${intermediate !== null ? `<p class="solution-formula">${formatFormulaMarkup(`${rightHandSide} = ${formatExactDecimal(intermediate)}`)}</p>` : ''}<p class="solution-formula">${escapeHtml(meta.output)} = ${escapeHtml(formatAnswer(result, panel))}${meta.SI ? ` ${escapeHtml(meta.SI)}` : ''}</p>`;
+
+  if (formula.id === 'chemistry.molar_mass_by_formula' || formula.id === 'chemistry.substance_amount_by_formula') {
+    const chemicalFormula = formula.id.endsWith('molar_mass_by_formula') ? values[0] : values[1];
+    const composition = parseChemicalFormula(chemicalFormula);
+    const terms = Object.entries(composition).map(([symbol, count]) => `${count > 1 ? `${count} · ` : ''}${formatExactDecimal(ATOMIC_MASSES[symbol])}`);
+    const molarMass = molarMassFromFormula(chemicalFormula);
+    substitutionContent = `<p class="solution-explanation">Разбираем формулу вещества на атомы и берём относительные атомные массы из таблицы.</p><p class="solution-formula">${formatFormulaMarkup(chemicalFormula)}: ${Object.entries(composition).map(([symbol, count]) => `${escapeHtml(symbol)} — ${count} атом(а)`).join('; ')}</p><p class="solution-formula">M = ${terms.join(' + ')} = ${formatExactDecimal(molarMass)} г/моль</p>`;
+    calculationContent = formula.id.endsWith('substance_amount_by_formula')
+      ? `<p class="solution-explanation">Делим массу образца на рассчитанную молярную массу.</p><p class="solution-formula">n = ${formatExactDecimal(values[0])} / ${formatExactDecimal(molarMass)} = ${escapeHtml(formatAnswer(result, panel))} моль</p>`
+      : `<p class="solution-explanation">Складываем массы всех атомов в одной молекуле.</p><p class="solution-formula">M(${formatFormulaMarkup(chemicalFormula)}) = ${formatExactDecimal(molarMass)} г/моль</p>`;
+  }
+  message.innerHTML = `${resultHtml(meta.output, meta.SI, result, '', panel)}<div class="solution-steps"><div class="solution-heading">Подробное решение</div>${solutionStep(1, 'Исходная формула', `<p class="solution-formula">${formatFormulaMarkup(formula.formula_view)}</p>`)}${solutionStep(2, 'Подставляем значения', `${substitutionContent}<div class="solution-data-list">${knownValues}</div>`)}${solutionStep(3, 'Вычисляем', calculationContent)}${solutionStep(4, 'Ответ', `<p class="solution-formula">${escapeHtml(meta.output)} = ${escapeHtml(formatAnswer(result, panel))}${meta.SI ? ` ${escapeHtml(meta.SI)}` : ''}</p>`)}</div>`;
   message.classList.add('success');
 }
 
@@ -637,6 +816,7 @@ function renderCase(panel, formula, calculations, caseId) {
   const form = panel.querySelector('.calc-form');
   const isMath = formula.subjectKey === 'math';
   description.innerHTML = `<span class="mini-formula">${formatFormulaMarkup(formula.formula_view)}</span><span class="target-text">${escapeHtml(meta.name)}</span>`;
+  setupAnswerFormat(panel, form);
   form.innerHTML = `${meta.inputs.map(([key, label]) => createNumericInput(key, label, formula, formula.groupKey)).join('')}
     <div class="output-preview"><span>Результат:</span><strong>${escapeHtml(meta.output)}</strong>${meta.SI ? `<em>${escapeHtml(meta.SI)}</em>` : ''}</div>
     <div class="calc-actions"><button class="calculate-btn" type="submit">Рассчитать</button><button class="reset-btn" type="button">Очистить</button></div>`;
@@ -677,8 +857,8 @@ function renderCase(panel, formula, calculations, caseId) {
         renderMathSolution(panel, formula, meta, values, result, false);
       } else {
         let extra = '';
-        if (formula.key === 'mass_fraction' && caseId === '1' && Number.isFinite(result)) extra = `<div class="result-extra">В процентах: <strong>${escapeHtml(formatResult(result * 100))}%</strong></div>`;
-        message.innerHTML = resultHtml(meta.output, meta.SI, result, extra);
+        if (formula.key === 'mass_fraction' && caseId === '1' && Number.isFinite(result)) extra = `<div class="result-extra">В процентах: <strong>${escapeHtml(formatAnswer(result * 100, panel))}%</strong></div>`;
+        message.innerHTML = resultHtml(meta.output, meta.SI, result, extra, panel);
         message.classList.add('success');
       }
     } catch (error) {
@@ -703,7 +883,7 @@ function renderCase(panel, formula, calculations, caseId) {
           if (button.dataset.mode === 'detailed') renderDetailedCalculation(panel, formula, meta, state.values, state.result);
           else if (isMath) renderMathSolution(panel, formula, meta, state.values, state.result, false);
           else {
-            message.innerHTML = resultHtml(meta.output, meta.SI, state.result);
+            message.innerHTML = resultHtml(meta.output, meta.SI, state.result, '', panel);
             message.classList.add('success');
           }
         }
@@ -737,9 +917,18 @@ function createReactionCalculator() {
       <div class="reaction-preview" id="reactionPreview"><span>Уравнение появится здесь</span></div>
       <div class="reaction-amounts" id="reactionAmounts"></div>
     </div>
+    ${answerFormatControls()}
     <div class="calc-actions"><button class="calculate-btn" id="reactionCalculate" type="button">Рассчитать продукты</button><button class="reset-btn" id="reactionReset" type="button">Очистить</button></div>
     <div class="calc-message" id="reactionMessage" aria-live="polite"></div>
   </div>`;
+}
+
+function renderReactionResult(panel) {
+  const state = panel.__reactionResult;
+  if (!state) return;
+  const message = panel.querySelector('#reactionMessage');
+  message.innerHTML = `<div class="result-label">Продукт реакции</div><div class="result-value">${escapeHtml(state.product)}</div><div class="reaction-result-grid"><div><span>Количество вещества</span><strong>${escapeHtml(formatAnswer(state.productAmount, panel))} <small>моль</small></strong></div><div><span>Масса</span><strong>${escapeHtml(formatAnswer(state.productMass, panel))} <small>г</small></strong></div></div>`;
+  message.classList.add('success');
 }
 
 function gcd(a, b) {
@@ -770,6 +959,7 @@ function buildBinaryProduct(formulaA, formulaB) {
 
 function renderReactionPanel(card) {
   const panel = card.querySelector('.reaction-panel');
+  setupAnswerFormat(panel, null);
   const f1 = panel.querySelector('#reactant-1'); const f2 = panel.querySelector('#reactant-2');
   const preview = panel.querySelector('#reactionPreview'); const amounts = panel.querySelector('#reactionAmounts'); const message = panel.querySelector('#reactionMessage');
   const updatePreview = () => {
@@ -785,7 +975,7 @@ function renderReactionPanel(card) {
     }
   };
   [f1, f2].forEach(input => input.addEventListener('input', updatePreview));
-  panel.querySelector('#reactionReset').onclick = () => { f1.value = ''; f2.value = ''; updatePreview(); message.className = 'calc-message'; message.textContent = ''; };
+  panel.querySelector('#reactionReset').onclick = () => { f1.value = ''; f2.value = ''; panel.__reactionResult = null; updatePreview(); message.className = 'calc-message'; message.textContent = ''; };
   panel.querySelector('#reactionCalculate').onclick = () => {
     message.className = 'calc-message'; message.textContent = '';
     try {
@@ -800,7 +990,8 @@ function renderReactionPanel(card) {
       const extent = moles[0];
       const productMass = extent * molarMassFromFormula(product);
       const productAmount = extent;
-      message.innerHTML = `<div class="result-label">Продукт реакции</div><div class="result-value">${escapeHtml(product)}</div><div class="reaction-result-grid"><div><span>Количество вещества</span><strong>${escapeHtml(formatResult(productAmount))} <small>моль</small></strong></div><div><span>Масса</span><strong>${escapeHtml(formatResult(productMass))} <small>г</small></strong></div></div>`;
+      panel.__reactionResult = { product, productAmount, productMass };
+      renderReactionResult(panel);
       message.classList.add('success');
     } catch (error) { message.textContent = error?.message || 'Не удалось выполнить расчёт.'; message.classList.add('error'); }
   };
@@ -896,7 +1087,7 @@ function createFormulaCard(formula, calculatorModal) {
   card.dataset.id = formula.id;
   card.dataset.group = formula.groupKey;
   const caseNames = isReaction ? ['Авторасчёт уравнения'] : Object.values(formula.cases || {}).map(item => item.name);
-  card.innerHTML = `<div class="formula-head"><div class="formula-icon">${escapeHtml(formula.icon)}</div><div class="formula-title-wrap"><div class="formula-meta"><span>${escapeHtml(formula.topicLabel || formula.groupLabel)}</span>${formula.subjectKey === 'math' && formula.branch ? `<span>${formula.branch === 'higher' ? 'Высшая математика' : 'Элементарная математика'}</span>` : ''}<span>${caseCount} ${caseCount === 1 ? 'вариант' : caseCount < 5 ? 'варианта' : 'вариантов'}</span>${formula.subjectKey === 'math' && Object.values(formula.cases || {}).some(item => item.graphFunction) ? '<span>График</span>' : ''}</div><h3>${escapeHtml(formula.title)}</h3></div></div>
+  card.innerHTML = `<div class="formula-head"><div class="formula-icon" aria-hidden="true"><img src="${getFormulaIcon(formula)}" alt="" loading="lazy" decoding="async"></div><div class="formula-title-wrap"><div class="formula-meta"><span>${escapeHtml(formula.topicLabel || formula.groupLabel)}</span>${formula.subjectKey === 'math' && formula.branch ? `<span>${formula.branch === 'higher' ? 'Высшая математика' : 'Элементарная математика'}</span>` : ''}<span>${caseCount} ${caseCount === 1 ? 'вариант' : caseCount < 5 ? 'варианта' : 'вариантов'}</span>${formula.subjectKey === 'math' && Object.values(formula.cases || {}).some(item => item.graphFunction) ? '<span>График</span>' : ''}</div><h3>${escapeHtml(formula.title)}</h3></div></div>
     <p class="formula-desc">${escapeHtml(formula.description)}</p>
     <div class="formula-view">${formatFormulaMarkup(formula.formula_view)}</div>
     <div class="formula-targets">${caseNames.slice(0, 4).map(name => `<span>${escapeHtml(name)}</span>`).join('')}${caseNames.length > 4 ? `<span>+ ещё ${caseNames.length - 4}</span>` : ''}</div>
@@ -904,6 +1095,12 @@ function createFormulaCard(formula, calculatorModal) {
 
   card.querySelector('.open-calculator').onclick = event => calculatorModal?.open(formula, event.currentTarget);
   return card;
+}
+
+function getFormulaIcon(formula) {
+  if (formula.subjectKey === 'math') return './src/assets/formula-icons/mathematics.png';
+  if (formula.subjectKey === 'physics') return './src/assets/formula-icons/physics-atom.png';
+  return './src/assets/formula-icons/chemistry-flask.png';
 }
 
 function setup() {
@@ -919,9 +1116,7 @@ function setup() {
   const periodicTableSection = document.getElementById('periodicTableSection');
 
   const formulas = [...ALL_FORMULAS.filter(formula => formula.id !== REACTION_EQUATION.id), REACTION_EQUATION];
-  cardsGrid.innerHTML = '';
   const calculatorModal = setupCalculatorModal();
-  formulas.forEach(formula => cardsGrid.appendChild(createFormulaCard(formula, calculatorModal)));
 
   const subjectCounts = { all: formulas.length, chemistry: 0, physics: 0, math: 0 };
   formulas.forEach(formula => {
@@ -935,11 +1130,19 @@ function setup() {
 
   const normalizeSearchText = value => String(value).toLocaleLowerCase('ru-RU').replace(/ё/g, 'е').normalize('NFKC');
   const searchableText = formula => normalizeSearchText([formula.title, formula.description, formula.formula_view, formula.groupLabel, formula.topicLabel, formula.topicSection, formula.subjectKey === 'math' ? (formula.branch === 'higher' ? 'высшая математика' : 'школьная математика') : '', formula.subjectKey === 'physics' ? 'физика' : formula.subjectKey === 'chemistry' ? 'химия' : '', ...(formula.searchAliases || []), ...Object.values(formula.cases || {}).flatMap(c => [c.name, c.output, ...c.inputs.map(x => x[1])])].join(' '));
+  const searchIndex = new Map(formulas.map(formula => [formula.id, searchableText(formula)]));
 
   let activeSubject = 'all';
   let activeTopic = 'all';
-  const collapsedFormulaCount = 6;
-  let showAllFormulas = false;
+  const formulaBatchSize = 18;
+  let visibleFormulaCount = formulaBatchSize;
+
+  const syncSearchButton = () => {
+    const hasQuery = Boolean(searchInput.value.trim());
+    clearSearch.querySelector('.search-action-label').textContent = hasQuery ? 'Очистить' : 'Найти';
+    clearSearch.setAttribute('aria-label', hasQuery ? 'Очистить поиск' : 'Найти формулы');
+    clearSearch.classList.toggle('is-clear', hasQuery);
+  };
 
   const renderTopicFilters = () => {
     const sections = TOPIC_SECTIONS_BY_SUBJECT[activeSubject] || [];
@@ -959,52 +1162,50 @@ function setup() {
     select.value = activeTopic;
     select.addEventListener('change', () => {
       activeTopic = select.value;
-      showAllFormulas = false;
+      visibleFormulaCount = formulaBatchSize;
       applyFilters();
     });
   };
 
   const applyFilters = () => {
     const query = normalizeSearchText(searchInput.value.trim());
-    let matches = 0;
-    let shown = 0;
-    [...cardsGrid.children].forEach((card, index) => {
-      const formula = formulas[index];
-      const matchesQuery = !query || searchableText(formula).includes(query);
+    const matchingFormulas = formulas.filter(formula => {
+      const matchesQuery = !query || searchIndex.get(formula.id).includes(query);
       const matchesSubject = activeSubject === 'all' || formula.subjectKey === activeSubject;
       const matchesTopic = activeTopic === 'all' || activeTopic === `branch:${formula.branch}` || formula.topicKey === activeTopic;
-      const matchesFilters = matchesQuery && matchesSubject && matchesTopic;
-      if (matchesFilters) matches += 1;
-      const show = matchesFilters && (Boolean(query) || showAllFormulas || shown < collapsedFormulaCount);
-      card.classList.toggle('formula-revealed', Boolean(show && !query && showAllFormulas && shown >= collapsedFormulaCount));
-      card.hidden = !show;
-      if (show) shown += 1;
-      card.classList.toggle('search-hit', Boolean(query && matchesQuery && show));
+      return matchesQuery && matchesSubject && matchesTopic;
     });
+    const visibleFormulas = matchingFormulas.slice(0, visibleFormulaCount);
+    const fragment = document.createDocumentFragment();
+    visibleFormulas.forEach(formula => {
+      const card = createFormulaCard(formula, calculatorModal);
+      if (query) card.classList.add('search-hit');
+      fragment.appendChild(card);
+    });
+    cardsGrid.replaceChildren(fragment);
 
     const mathGuide = document.getElementById('mathGuide');
     if (mathGuide) mathGuide.hidden = activeSubject !== 'math';
     cardsGrid.hidden = false;
-    subjectEmpty.hidden = matches !== 0;
-    resultCount.textContent = `${matches} ${matches === 1 ? 'формула' : matches < 5 ? 'формулы' : 'формул'}`;
+    subjectEmpty.hidden = matchingFormulas.length !== 0;
+    resultCount.textContent = `${matchingFormulas.length} ${matchingFormulas.length === 1 ? 'формула' : matchingFormulas.length < 5 ? 'формулы' : 'формул'}`;
     if (loadMoreButton) {
-      const hasMore = !query && matches > collapsedFormulaCount;
+      const hasMore = matchingFormulas.length > visibleFormulas.length;
       loadMoreButton.hidden = !hasMore;
       loadMoreWrap.hidden = !hasMore;
-      loadMoreButton.textContent = showAllFormulas ? 'Свернуть список' : 'Показать все формулы';
-      loadMoreButton.setAttribute('aria-expanded', showAllFormulas ? 'true' : 'false');
+      loadMoreButton.textContent = `Показать ещё (${matchingFormulas.length - visibleFormulas.length})`;
     }
   };
 
   loadMoreButton?.addEventListener('click', () => {
-    showAllFormulas = !showAllFormulas;
+    visibleFormulaCount += formulaBatchSize;
     applyFilters();
   });
 
   const selectSubject = (subject) => {
     activeSubject = subject;
     activeTopic = 'all';
-    showAllFormulas = false;
+    visibleFormulaCount = formulaBatchSize;
     subjectButtons.forEach(button => {
       const selected = button.dataset.subject === subject;
       button.classList.toggle('active', selected);
@@ -1021,10 +1222,21 @@ function setup() {
 
   subjectButtons.forEach(button => button.addEventListener('click', () => selectSubject(button.dataset.subject)));
   searchInput.addEventListener('input', () => {
-    showAllFormulas = false;
+    visibleFormulaCount = formulaBatchSize;
     applyFilters();
+    syncSearchButton();
   });
-  clearSearch.addEventListener('click', () => { searchInput.value = ''; searchInput.focus(); showAllFormulas = false; applyFilters(); });
+  clearSearch.addEventListener('click', () => {
+    if (!searchInput.value.trim()) {
+      searchInput.focus();
+      return;
+    }
+    searchInput.value = '';
+    searchInput.focus();
+    visibleFormulaCount = formulaBatchSize;
+    applyFilters();
+    syncSearchButton();
+  });
 
   const params = new URLSearchParams(location.search);
   const queryFromUrl = params.get('q') || params.get('search');
@@ -1032,6 +1244,7 @@ function setup() {
   if (queryFromUrl) searchInput.value = queryFromUrl;
   if (SUBJECTS.some(subject => subject.key === hashSubject)) activeSubject = hashSubject;
   selectSubject(activeSubject);
+  syncSearchButton();
 };
 
 if (typeof document !== 'undefined') {

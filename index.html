@@ -32,53 +32,62 @@
 
     <main class="main-container">
         <section class="hero-section">
-            <h1 class="main-title">Расчёты для учёбы и науки</h1>
-            <p class="main-subtitle">Калькуляторы по математике, физике и химии.</p>
+            <div class="hero-copy">
+                <p class="hero-kicker"><span></span> Точный расчёт. Понятное решение.</p>
+                <h1 class="main-title">Сложная задача?<br><span>Разберём по шагам.</span></h1>
+                <p class="main-subtitle">Найди нужную формулу, подставь данные и посмотри, как получается ответ.</p>
 
-            <form action="calculators.html" class="search-form">
-                <input type="text" placeholder="Формула или тема" class="search-input">
-                <button type="submit" class="search-btn">Найти</button>
-            </form>
+                <form action="calculators.html" method="get" class="search-form" role="search" id="homeSearchForm">
+                    <label class="visually-hidden" for="homeSearchInput">Поиск формулы или темы</label>
+                    <input type="search" id="homeSearchInput" name="q" placeholder="Например: квадратное уравнение" class="search-input" autocomplete="off">
+                    <button type="submit" class="search-btn"><span>Найти</span><span aria-hidden="true">↗</span></button>
+                </form>
+                <div class="search-suggestions" aria-label="Популярные запросы">
+                    <span>ПОПРОБУЙ:</span>
+                    <a href="calculators.html?q=проценты">проценты</a>
+                    <a href="calculators.html?q=закон%20Ома">закон Ома</a>
+                    <a href="calculators.html?q=интеграл">интеграл</a>
+                </div>
+                <a class="hero-link" href="calculators.html">Открыть все калькуляторы <span aria-hidden="true">→</span></a>
+            </div>
+
+            <div class="hero-visual" aria-label="Пример пошагового решения">
+                <div class="visual-orbit visual-orbit--outer"></div>
+                <div class="visual-orbit visual-orbit--inner"></div>
+                <div class="formula-card">
+                    <div class="formula-card-top"><span class="live-dot"></span> ПРИМЕР РЕШЕНИЯ <span class="formula-card-index">01 / 03</span></div>
+                    <div class="formula-subject">Ускоренное движение <span>ФИЗИКА</span></div>
+                    <div class="formula-equation">v = v₀ + at</div>
+                    <div class="formula-divider"></div>
+                    <div class="formula-step"><span>01</span><div><small>Исходные данные</small><strong>v₀ = 12 м/с&nbsp;&nbsp; a = 3 м/с²&nbsp;&nbsp; t = 4 с</strong></div></div>
+                    <div class="formula-step"><span>02</span><div><small>Подставляем в формулу</small><strong>v = 12 + 3 · 4</strong></div></div>
+                    <div class="formula-answer"><span>ОТВЕТ</span><strong>24 <small>м/с</small></strong><i>✓</i></div>
+                </div>
+                <div class="visual-tags">
+                    <div class="visual-tag"><svg class="visual-tag-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5H7l7 7-7 7h11"></path></svg> Формулы с объяснением</div>
+                    <div class="visual-tag"><svg class="visual-tag-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg> От данных — к ответу</div>
+                </div>
+            </div>
         </section>
 
-        <section class="cards-grid">
-            <a href="calculators.html#math" class="card">
-                <div class="card-icon">
-                    <svg class="icon-svg" viewBox="0 0 24 24">
-                        <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0l12.6 12.6z"/>
-                        <path d="m14.5 12.5 2-2"/>
-                        <path d="m11.5 9.5 2-2"/>
-                        <path d="m8.5 6.5 2-2"/>
-                    </svg>
-                </div>
-                <h2 class="card-title">Математика</h2>
-                <p class="card-desc">Матрицы, интегралы, уравнения, предел функции и векторная алгебра.</p>
-            </a>
+        <section class="popular-section" aria-labelledby="popularTitle">
+            <div class="section-heading">
+                <div><span class="section-kicker">БЫСТРЫЙ СТАРТ</span><h2 id="popularTitle">Что нужно посчитать?</h2></div>
+                <a href="calculators.html">Все темы <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="popular-topics">
+                <a href="calculators.html?q=квадратное%20уравнение"><span>01</span> Квадратное уравнение <b>↗</b></a>
+                <a href="calculators.html?q=плотность"><span>02</span> Плотность <b>↗</b></a>
+                <a href="calculators.html?q=молярная%20масса"><span>03</span> Молярная масса <b>↗</b></a>
+                <a href="calculators.html?q=закон%20Ома"><span>04</span> Закон Ома <b>↗</b></a>
+                <a href="calculators.html?q=интеграл"><span>05</span> Интеграл <b>↗</b></a>
+            </div>
+        </section>
 
-            <a href="calculators.html#physics" class="card">
-                <div class="card-icon">
-                    <svg class="icon-svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
-                        <ellipse cx="12" cy="12" rx="9" ry="3.5" />
-                        <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(60 12 12)" />
-                        <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(120 12 12)" />
-                    </svg>
-                </div>
-                <h2 class="card-title">Физика</h2>
-                <p class="card-desc">Механика, термодинамика, электродинамика, оптика и квантовые состояния.</p>
-            </a>
-
-            <a href="calculators.html#chemistry" class="card">
-                <div class="card-icon">
-                    <svg class="icon-svg" viewBox="0 0 24 24">
-                        <path d="M10 2v7.31L4.75 18.1A2 2 0 0 0 6.47 21h11.06a2 2 0 0 0 1.72-2.9L14 9.31V2"/>
-                        <path d="M8.5 2h7"/>
-                        <path d="M7 16h10"/>
-                    </svg>
-                </div>
-                <h2 class="card-title">Химия</h2>
-                <p class="card-desc">Молярные массы, балансировка реакций, стехиометрия и растворы.</p>
-            </a>
+        <section class="home-note">
+            <div class="home-note-mark">∴</div>
+            <div><span class="section-kicker">НЕ ПРОСТО ОТВЕТ</span><h2>Пойми, почему получается именно так.</h2><p>Выбери подробный режим — и пройди решение от исходной формулы до результата.</p></div>
+            <a href="calculators.html">Начать расчёт <span aria-hidden="true">→</span></a>
         </section>
     </main>
 
@@ -140,13 +149,11 @@
 
     </div>
 
-    <!-- Кнопка наверх со стрелкой -->
-    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'auto'});">
-        <svg viewBox="0 0 24 24" class="arrow-icon">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-    </button>
 </footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Прокрутить страницу наверх">
+    <svg viewBox="0 0 24 24" class="arrow-icon" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
 
 <!-- Плавающая кнопка для открытия карты -->
     <button class="map-floating-btn" id="mapBtn" title="Наш адрес">
@@ -157,9 +164,9 @@
     </button>
 
     <!-- Модальное окно с картой -->
-    <div id="mapModal" class="map-modal">
-        <div class="map-modal-content">
-            <span class="close-map-btn" id="closeMapBtn">&times;</span>
+    <div id="mapModal" class="map-modal" aria-hidden="true">
+        <div class="map-modal-content" role="dialog" aria-modal="true" aria-label="Адрес проекта UniCalc">
+            <button class="close-map-btn" id="closeMapBtn" type="button" aria-label="Закрыть карту" title="Закрыть карту"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"></path></svg></button>
             <div class="map-wrapper">
                 <!-- Iframe заменен на 100% ширины и высоты для адаптивности -->
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1453.3344911730774!2d76.93980752505338!3d43.23739939809059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836f53b459a531%3A0xca57c2c732172481!2z0JrQvtC70LvQtdC00LYg0KLRg9GA0LDQvSA1Mg!5e0!3m2!1sru!2skz!4v1791283206655!5m2!1sru!2skz" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -172,23 +179,42 @@
         const mapBtn = document.getElementById('mapBtn');
         const mapModal = document.getElementById('mapModal');
         const closeMapBtn = document.getElementById('closeMapBtn');
+        let mapReturnFocus = null;
 
-        // Открытие модального окна
-        mapBtn.onclick = function() {
-            mapModal.style.display = 'flex';
-        }
-
-        // Закрытие при клике на крестик
-        closeMapBtn.onclick = function() {
+        const closeMap = () => {
             mapModal.style.display = 'none';
-        }
+            mapModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('map-open');
+            if (mapReturnFocus) mapReturnFocus.focus({ preventScroll: true });
+            mapReturnFocus = null;
+        };
 
-        // Закрытие при клике вне окна
-        window.onclick = function(event) {
-            if (event.target === mapModal) {
-                mapModal.style.display = 'none';
+        mapBtn.addEventListener('click', () => {
+            mapReturnFocus = mapBtn;
+            mapModal.style.display = 'flex';
+            mapModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('map-open');
+            closeMapBtn.focus({ preventScroll: true });
+        });
+
+        closeMapBtn.addEventListener('click', closeMap);
+
+        mapModal.addEventListener('click', event => {
+            if (event.target === mapModal) closeMap();
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && mapModal.getAttribute('aria-hidden') === 'false') closeMap();
+        });
+
+        document.getElementById('homeSearchForm').addEventListener('submit', event => {
+            const input = document.getElementById('homeSearchInput');
+            input.value = input.value.trim();
+            if (!input.value) {
+                event.preventDefault();
+                input.focus();
             }
-        }
+        });
     </script>
     <script type="module" src="src/parallax.js"></script>
 

@@ -33,7 +33,7 @@
         <p class="main-subtitle">Выберите формулу и введите значения, чтобы получить результат.</p>
         <div class="search-form" role="search">
             <input type="search" id="searchInput" placeholder="Поиск по формуле, теме или величине" class="search-input" autocomplete="off">
-            <button type="button" class="search-btn" id="clearSearch" aria-label="Очистить поиск">Очистить</button>
+            <button type="button" class="search-btn" id="clearSearch" aria-label="Найти формулы"><svg class="search-action-icon search-action-icon--find" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg><svg class="search-action-icon search-action-icon--clear" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg><span class="search-action-label">Найти</span></button>
         </div>
     </section>
 
@@ -47,22 +47,22 @@
         </div>
         <div class="subject-buttons" role="tablist" aria-label="Предметы">
             <button class="subject-btn active" type="button" role="tab" aria-selected="true" data-subject="all">
-                <span class="subject-icon">∑</span>
+                <span class="subject-icon subject-icon--all" aria-hidden="true"><img src="./src/assets/formula-icons/mathematics.png" alt=""><img src="./src/assets/formula-icons/physics-atom.png" alt=""><img src="./src/assets/formula-icons/chemistry-flask.png" alt=""></span>
                 <span class="subject-copy"><strong>Все предметы</strong><small>Общий каталог</small></span>
                 <span class="subject-count" data-count-for="all">0</span>
             </button>
             <button class="subject-btn" type="button" role="tab" aria-selected="false" data-subject="chemistry">
-                <span class="subject-icon">⚗</span>
+                <span class="subject-icon" aria-hidden="true"><img src="./src/assets/formula-icons/chemistry-flask.png" alt=""></span>
                 <span class="subject-copy"><strong>Химия</strong><small>Вещества и реакции</small></span>
                 <span class="subject-count" data-count-for="chemistry">0</span>
             </button>
             <button class="subject-btn" type="button" role="tab" aria-selected="false" data-subject="physics">
-                <span class="subject-icon">◉</span>
+                <span class="subject-icon" aria-hidden="true"><img src="./src/assets/formula-icons/physics-atom.png" alt=""></span>
                 <span class="subject-copy"><strong>Физика</strong><small>Механика и поля</small></span>
                 <span class="subject-count" data-count-for="physics">0</span>
             </button>
             <button class="subject-btn" type="button" role="tab" aria-selected="false" data-subject="math">
-                <span class="subject-icon">√</span>
+                <span class="subject-icon" aria-hidden="true"><img src="./src/assets/formula-icons/mathematics.png" alt=""></span>
                 <span class="subject-copy"><strong>Математика</strong><small>Элементарная и высшая</small></span>
                 <span class="subject-count" data-count-for="math">0</span>
             </button>
@@ -151,7 +151,7 @@
 
     <section class="formula-grid" id="formulaGrid" aria-live="polite"></section>
     <div class="formula-load-more-wrap" id="formulaLoadMoreWrap" hidden>
-        <button class="formula-load-more" id="loadMoreFormulas" type="button" aria-controls="formulaGrid" aria-expanded="false" hidden>Показать все формулы</button>
+        <button class="formula-load-more" id="loadMoreFormulas" type="button" aria-controls="formulaGrid" hidden>Показать ещё</button>
     </div>
     <section class="subject-empty" id="subjectEmpty" hidden aria-live="polite">
         <div class="subject-empty-icon">⌕</div>
@@ -199,11 +199,12 @@
                 <p>Адрес: 123 улица, Город, Страна</p>
             </div>
         </div>
+        <p class="icon-attribution">Иконки: <a href="https://www.flaticon.com/free-icon/mathematics_2490315" target="_blank" rel="noopener noreferrer">Mathematics — designed by Smashicons from Flaticon</a>, <a href="https://www.flaticon.com/free-icon/atom_3961550" target="_blank" rel="noopener noreferrer">Atom — designed by SA Family from Flaticon</a> и <a href="https://www.flaticon.com/free-icon/chemistry-flask_15917334" target="_blank" rel="noopener noreferrer">Chemistry flask — designed by Pixel bytess from Flaticon</a>.</p>
     </div>
-    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'auto'});" aria-label="Наверх">
-        <svg viewBox="0 0 24 24" class="arrow-icon"><polyline points="18 15 12 9 6 15"></polyline></svg>
-    </button>
 </footer>
+<button class="scroll-top-btn" id="scrollTopBtn" title="Наверх" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Прокрутить страницу наверх">
+    <svg viewBox="0 0 24 24" class="arrow-icon" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
 <script type="module" src="src/calculators.js"></script>
 <script type="module" src="src/parallax.js"></script>
 </body>
