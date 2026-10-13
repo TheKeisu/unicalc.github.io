@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Подборка обучающих видео по математике, физике и химии.">
+    <title>UniCalc — Видеоуроки</title>
+    <link rel="stylesheet" href="src/index.css">
+    <link rel="stylesheet" href="src/tutorials.css">
+</head>
+<body>
+    <div class="parallax-scene" aria-hidden="true">
+        <span class="parallax-glow parallax-glow--one"></span>
+        <span class="parallax-glow parallax-glow--two"></span>
+        <span class="parallax-glow parallax-glow--three"></span>
+    </div>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-btn">UniCalc</a>
+            <nav aria-label="Основная навигация">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Главная</a></li>
+                    <li><a href="calculators.html" class="nav-link">Все калькуляторы</a></li>
+                    <li><a href="tutorials.html" class="nav-link active" aria-current="page">Видеоуроки</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container tutorials-page">
+        <section class="tutorials-hero" aria-labelledby="tutorialsTitle">
+            <div class="tutorials-hero-copy">
+                <p class="hero-kicker"><span></span> UniCalc · Видеоразборы</p>
+                <h1 class="main-title" id="tutorialsTitle">Смотри.<br><span>Понимай. Решай.</span></h1>
+                <p class="main-subtitle">Короткий путь от непонятной темы к ясному решению. Выбирай предмет и открывай урок.</p>
+                <div class="tutorials-hero-notes" aria-label="Возможности страницы">
+                    <span><b>01</b> Математика</span>
+                    <span><b>02</b> Физика</span>
+                    <span><b>03</b> Химия</span>
+                </div>
+            </div>
+            <div class="tutorials-hero-visual" aria-hidden="true">
+                <div class="lesson-orbit lesson-orbit--outer"></div>
+                <div class="lesson-orbit lesson-orbit--inner"></div>
+                <div class="lesson-board">
+                    <span class="lesson-board-label">СЕГОДНЯ РАЗБИРАЕМ</span>
+                    <strong>F = m · a</strong>
+                    <span class="lesson-board-rule"></span>
+                    <span class="lesson-board-caption">Формула становится понятнее,<br>когда видишь решение.</span>
+                    <span class="lesson-play-mark">▶</span>
+                </div>
+                <span class="lesson-float lesson-float--one">x²</span>
+                <span class="lesson-float lesson-float--two">H₂O</span>
+            </div>
+        </section>
+
+        <section class="tutorial-catalog" aria-labelledby="catalogTitle">
+            <div class="tutorial-catalog-heading">
+                <div>
+                    <span class="section-kicker">БИБЛИОТЕКА УРОКОВ</span>
+                    <h2 id="catalogTitle">Выбери тему и смотри</h2>
+                </div>
+                <p>Листай подборки по горизонтали или выбери предмет, чтобы оставить только нужные уроки.</p>
+            </div>
+
+            <div class="tutorial-toolbar">
+                <div class="tutorial-subject-filters" role="group" aria-label="Фильтр по предмету">
+                    <button class="tutorial-filter active" type="button" data-subject="all" aria-pressed="true">Все предметы</button>
+                    <button class="tutorial-filter" type="button" data-subject="math" aria-pressed="false">Математика</button>
+                    <button class="tutorial-filter" type="button" data-subject="physics" aria-pressed="false">Физика</button>
+                    <button class="tutorial-filter" type="button" data-subject="chemistry" aria-pressed="false">Химия</button>
+                </div>
+                <label class="tutorial-search">
+                    <span class="visually-hidden">Поиск уроков</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
+                    <input id="tutorialSearch" type="search" placeholder="Найти тему или урок" autocomplete="off">
+                    <button id="tutorialSearchClear" type="button" aria-label="Очистить поиск" hidden>×</button>
+                </label>
+            </div>
+            <p class="tutorial-result-count" id="tutorialResultCount" aria-live="polite"></p>
+
+            <div class="tutorial-sections" id="tutorialSections">
+                <section class="video-section" data-subject-section="math" aria-labelledby="mathVideosTitle">
+                    <div class="video-section-heading">
+                        <div class="video-subject-title"><span class="subject-symbol subject-symbol--math" aria-hidden="true">∑</span><div><h3 id="mathVideosTitle">Математика</h3><p>Алгебра, проценты и функции</p></div></div>
+                        <div class="carousel-controls"><button class="carousel-arrow" type="button" data-direction="prev" aria-label="Предыдущие видео по математике" disabled>←</button><button class="carousel-arrow" type="button" data-direction="next" aria-label="Следующие видео по математике">→</button></div>
+                    </div>
+                    <div class="video-track" data-video-track="math" role="list" tabindex="0" aria-label="Видеоуроки по математике"></div>
+                </section>
+
+                <section class="video-section" data-subject-section="physics" aria-labelledby="physicsVideosTitle">
+                    <div class="video-section-heading">
+                        <div class="video-subject-title"><span class="subject-symbol subject-symbol--physics" aria-hidden="true">↗</span><div><h3 id="physicsVideosTitle">Физика</h3><p>Движение, давление и электричество</p></div></div>
+                        <div class="carousel-controls"><button class="carousel-arrow" type="button" data-direction="prev" aria-label="Предыдущие видео по физике" disabled>←</button><button class="carousel-arrow" type="button" data-direction="next" aria-label="Следующие видео по физике">→</button></div>
+                    </div>
+                    <div class="video-track" data-video-track="physics" role="list" tabindex="0" aria-label="Видеоуроки по физике"></div>
+                </section>
+
+                <section class="video-section" data-subject-section="chemistry" aria-labelledby="chemistryVideosTitle">
+                    <div class="video-section-heading">
+                        <div class="video-subject-title"><span class="subject-symbol subject-symbol--chemistry" aria-hidden="true">⚗</span><div><h3 id="chemistryVideosTitle">Химия</h3><p>Элементы, связи и реакции</p></div></div>
+                        <div class="carousel-controls"><button class="carousel-arrow" type="button" data-direction="prev" aria-label="Предыдущие видео по химии" disabled>←</button><button class="carousel-arrow" type="button" data-direction="next" aria-label="Следующие видео по химии">→</button></div>
+                    </div>
+                    <div class="video-track" data-video-track="chemistry" role="list" tabindex="0" aria-label="Видеоуроки по химии"></div>
+                </section>
+            </div>
+            <div class="tutorial-empty" id="tutorialEmpty" hidden>
+                <span aria-hidden="true">⌕</span><strong>Уроки не найдены</strong><p>Попробуй изменить запрос или выбрать другой предмет.</p>
+            </div>
+        </section>
+
+        <section class="tutorial-bottom-note">
+            <span class="tutorial-bottom-icon" aria-hidden="true">∴</span>
+            <div><span class="section-kicker">СМОТРИ И ПРАКТИКУЙСЯ</span><h2>Закрепи урок на примере</h2><p>После видео открой калькулятор и проверь, как формула работает с конкретными числами.</p></div>
+            <a href="calculators.html" class="tutorial-bottom-link">К калькуляторам <span aria-hidden="true">→</span></a>
+        </section>
+    </main>
+
+    <footer class="footer tutorials-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-copyright">© 2026 UniCalc. Все права защищены.</div>
+                <div class="footer-contacts"><h4 class="contacts-title">Продолжай учиться</h4><p><a href="index.html">Главная</a> · <a href="calculators.html">Все калькуляторы</a></p></div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="video-modal" id="videoModal" aria-hidden="true" hidden>
+        <div class="video-modal-backdrop" data-video-dismiss></div>
+        <section class="video-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="videoModalTitle" tabindex="-1">
+            <header class="video-modal-header"><div><span class="section-kicker">ВИДЕОУРОК</span><h2 id="videoModalTitle">Урок</h2></div><button class="video-modal-close" id="videoModalClose" type="button" aria-label="Закрыть видео">×</button></header>
+            <div class="video-modal-player" id="videoModalPlayer"></div>
+            <div class="video-modal-footer"><span id="videoModalSource"></span><a id="videoModalExternal" href="#" target="_blank" rel="noopener noreferrer">Открыть на YouTube <span aria-hidden="true">↗</span></a></div>
+        </section>
+    </div>
+
+    <script type="module" src="src/tutorials.js"></script>
+    <script type="module" src="src/parallax.js"></script>
+</body>
+</html>

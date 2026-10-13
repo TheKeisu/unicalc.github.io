@@ -1835,6 +1835,26 @@ html {
     }
 }
 
+@media (max-width: 600px) {
+    .header .nav-container {
+        height: auto;
+        min-height: 70px;
+        gap: 12px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .header .nav-menu {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px 12px;
+    }
+
+    .header .nav-link {
+        font-size: 0.73rem;
+    }
+}
+
 body {
     overflow-x: hidden;
 }
