@@ -1,11 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem("unicalc-theme")==="light"?"light":"dark"}catch{document.documentElement.dataset.theme="dark"}</script>
+    <meta name="description" content="UniCalc помогает разбираться в формулах по математике, физике и химии — от исходных данных до понятного ответа.">
+    <meta name="theme-color" content="#0f172a">
+    <title>О проекте — UniCalc</title>
+    <link rel="stylesheet" href="src/index.css">
+    <link rel="stylesheet" href="src/about.css">
+    <link rel="stylesheet" href="src/theme.css">
 </head>
 <body>
-    
+    <div class="parallax-scene" aria-hidden="true">
+        <span class="parallax-glow parallax-glow--one"></span>
+        <span class="parallax-glow parallax-glow--two"></span>
+        <span class="parallax-glow parallax-glow--three"></span>
+    </div>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-btn">UniCalc</a>
+            <nav aria-label="Основная навигация">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Главная</a></li>
+                    <li><a href="calculators.html" class="nav-link">Все калькуляторы</a></li>
+                    <li><a href="tutorials.html" class="nav-link">Видеоуроки</a></li>
+                    <li><a href="about-us.html" class="nav-link active" aria-current="page">О проекте</a></li>
+                    <li class="theme-toggle-item"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Включить светлую тему" title="Включить светлую тему" aria-pressed="false"><span class="theme-toggle-icon" data-theme-icon aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg></span><span data-theme-label>Светлая</span></button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container about-page">
+        <section class="about-hero" aria-labelledby="aboutTitle">
+            <div class="about-hero-copy">
+                <p class="hero-kicker"><span></span> UniCalc · О проекте</p>
+                <h1 class="main-title" id="aboutTitle">Формулы — это<br><span>понятно.</span></h1>
+                <p class="main-subtitle">UniCalc помогает не просто получить ответ, а увидеть путь к нему: от условия задачи до каждого шага решения.</p>
+                <div class="about-actions">
+                    <a class="about-button about-button--primary" href="calculators.html">Найти формулу <span aria-hidden="true">↗</span></a>
+                    <a class="about-button about-button--quiet" href="tutorials.html">Смотреть видеоуроки <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="about-subject-line" aria-label="Предметы UniCalc">
+                    <span>Математика</span><i></i><span>Физика</span><i></i><span>Химия</span>
+                </div>
+            </div>
+
+            <div class="about-hero-visual" aria-label="Пример понятного решения задачи">
+                <div class="about-orbit about-orbit--outer"></div>
+                <div class="about-orbit about-orbit--inner"></div>
+                <span class="about-float about-float--one">∑</span>
+                <span class="about-float about-float--two">Δ</span>
+                <article class="solution-card">
+                    <div class="solution-card-top"><span class="live-dot"></span><span>РАЗБИРАЕМ ПО ШАГАМ</span><span class="solution-card-number">01</span></div>
+                    <p class="solution-topic">Плотность вещества <span>ФИЗИКА</span></p>
+                    <div class="solution-formula"><span>ρ</span> = <span class="fraction"><i>m</i><b></b><i>V</i></span></div>
+                    <div class="solution-rule"></div>
+                    <div class="solution-row"><span>01</span><div><small>Подставляем данные</small><strong>ρ = 600 г / 200 см³</strong></div></div>
+                    <div class="solution-row"><span>02</span><div><small>Вычисляем</small><strong>ρ = 3 г/см³</strong></div></div>
+                    <div class="solution-result"><span>ПОЛУЧАЕМ ОТВЕТ</span><strong>3 <small>г/см³</small></strong><b aria-hidden="true">✓</b></div>
+                </article>
+                <div class="about-visual-caption"><span>01</span> Формула <b>→</b> решение <b>→</b> понимание</div>
+            </div>
+        </section>
+
+        <section class="about-intro" aria-labelledby="introTitle">
+            <div class="about-section-mark" aria-hidden="true">∴</div>
+            <div class="about-intro-copy">
+                <span class="section-kicker">ЗАЧЕМ МЫ ЭТО СДЕЛАЛИ</span>
+                <h2 id="introTitle">Чтобы в задаче стало меньше неизвестного.</h2>
+                <p>Когда перед глазами только формула, легко потеряться в обозначениях и вычислениях. Мы собираем нужные инструменты и объяснения в одном месте, чтобы можно было сосредоточиться на самой задаче.</p>
+            </div>
+            <div class="about-intro-aside"><span>Не угадывай.</span><strong>Разберись.</strong></div>
+        </section>
+
+        <section class="about-workflow" aria-labelledby="workflowTitle">
+            <div class="about-section-heading">
+                <div><span class="section-kicker">ПРОСТОЙ МАРШРУТ</span><h2 id="workflowTitle">От вопроса к ответу</h2></div>
+                <p>Три шага — и формула начинает работать на тебя.</p>
+            </div>
+            <div class="workflow-grid">
+                <article class="workflow-card">
+                    <span class="workflow-number">01</span><div class="workflow-icon" aria-hidden="true">⌕</div>
+                    <h3>Найди нужную тему</h3><p>Ищи по названию, формуле или предмету. В каталоге собраны темы по математике, физике и химии.</p>
+                    <span class="workflow-arrow" aria-hidden="true">↗</span>
+                </article>
+                <article class="workflow-card">
+                    <span class="workflow-number">02</span><div class="workflow-icon" aria-hidden="true">∑</div>
+                    <h3>Введи известные данные</h3><p>Укажи значения в удобной форме и выбери, какую величину нужно вычислить.</p>
+                    <span class="workflow-arrow" aria-hidden="true">↗</span>
+                </article>
+                <article class="workflow-card">
+                    <span class="workflow-number">03</span><div class="workflow-icon" aria-hidden="true">✓</div>
+                    <h3>Проследи решение</h3><p>Смотри, как значения подставляются в формулу и превращаются в результат.</p>
+                    <span class="workflow-arrow" aria-hidden="true">↗</span>
+                </article>
+            </div>
+        </section>
+
+        <section class="about-subjects" aria-labelledby="subjectsTitle">
+            <div class="about-section-heading">
+                <div><span class="section-kicker">ТРИ ПРЕДМЕТА · ОДИН ПОНЯТНЫЙ ПОДХОД</span><h2 id="subjectsTitle">Выбирай, с чего начать</h2></div>
+                <a class="about-text-link" href="calculators.html">Весь каталог <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="subject-card-grid">
+                <a class="about-subject-card about-subject-card--math" href="calculators.html#math">
+                    <span class="subject-card-index">01 / МАТЕМАТИКА</span><span class="subject-glyph" aria-hidden="true">x²</span>
+                    <h3>Математика</h3><p>Уравнения, геометрия, функции и другие темы — с вычислениями и наглядными формулами.</p><span class="subject-card-link">Перейти к формулам <b aria-hidden="true">↗</b></span>
+                </a>
+                <a class="about-subject-card about-subject-card--physics" href="calculators.html#physics">
+                    <span class="subject-card-index">02 / ФИЗИКА</span><span class="subject-glyph" aria-hidden="true">F</span>
+                    <h3>Физика</h3><p>Свяжи величины между собой и проверь, как изменится результат при новых данных.</p><span class="subject-card-link">Перейти к формулам <b aria-hidden="true">↗</b></span>
+                </a>
+                <a class="about-subject-card about-subject-card--chemistry" href="calculators.html#chemistry">
+                    <span class="subject-card-index">03 / ХИМИЯ</span><span class="subject-glyph" aria-hidden="true">H₂O</span>
+                    <h3>Химия</h3><p>Работай с количеством вещества, растворами, реакциями и химическими величинами.</p><span class="subject-card-link">Перейти к формулам <b aria-hidden="true">↗</b></span>
+                </a>
+            </div>
+        </section>
+
+        <section class="about-video-cta" aria-labelledby="videoCtaTitle">
+            <div class="about-cta-symbol" aria-hidden="true">▶</div>
+            <div><span class="section-kicker">ЕЩЁ ОДИН СПОСОБ РАЗОБРАТЬСЯ</span><h2 id="videoCtaTitle">Посмотри, как решают другие</h2><p>Открой видеоуроки по предметам и закрепи тему на практике.</p></div>
+            <a href="tutorials.html" class="about-button about-button--primary">К видеоурокам <span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+
+    <footer class="footer about-footer">
+        <div class="footer-container"><div class="footer-content">
+            <div class="footer-copyright">© 2026 UniCalc. Учись понимать.</div>
+            <div class="footer-contacts"><h4 class="contacts-title">Продолжай учиться</h4><p><a href="calculators.html">Калькуляторы</a> · <a href="tutorials.html">Видеоуроки</a> · <a href="index.html">Главная</a></p></div>
+        </div></div>
+    </footer>
+    <script type="module" src="src/parallax.js"></script>
+    <script src="src/theme.js" defer></script>
+
 </body>
 </html>

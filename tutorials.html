@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem("unicalc-theme")==="light"?"light":"dark"}catch{document.documentElement.dataset.theme="dark"}</script>
     <meta name="description" content="Подборка обучающих видео по математике, физике и химии.">
     <title>UniCalc — Видеоуроки</title>
     <link rel="stylesheet" href="src/index.css">
     <link rel="stylesheet" href="src/tutorials.css">
+    <link rel="stylesheet" href="src/theme.css">
 </head>
 <body>
     <div class="parallax-scene" aria-hidden="true">
@@ -23,6 +26,8 @@
                     <li><a href="index.html" class="nav-link">Главная</a></li>
                     <li><a href="calculators.html" class="nav-link">Все калькуляторы</a></li>
                     <li><a href="tutorials.html" class="nav-link active" aria-current="page">Видеоуроки</a></li>
+                    <li><a href="about-us.html" class="nav-link">О проекте</a></li>
+                    <li class="theme-toggle-item"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Включить светлую тему" title="Включить светлую тему" aria-pressed="false"><span class="theme-toggle-icon" data-theme-icon aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg></span><span data-theme-label>Светлая</span></button></li>
                 </ul>
             </nav>
         </div>
@@ -137,5 +142,7 @@
 
     <script type="module" src="src/tutorials.js"></script>
     <script type="module" src="src/parallax.js"></script>
+    <script src="src/theme.js" defer></script>
+
 </body>
 </html>

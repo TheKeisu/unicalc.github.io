@@ -1,0 +1,424 @@
+:root {
+    color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg-gradient: #dce0d9;
+    --emerald-main: #828aab;
+    --emerald-light: #828aab;
+    --teal-accent: #828aab;
+    --text-main: #242424;
+    --text-muted: #424242;
+    --card-bg: #b1bed5;
+    --border-color: rgba(130, 138, 171, .38);
+}
+
+:root[data-theme="light"] body {
+    background: #dce0d9;
+    color: #242424;
+}
+
+/* Header and navigation */
+.header .nav-container {
+    gap: clamp(14px, 2.8vw, 38px);
+}
+.header .nav-container > .logo-btn { flex: 0 0 auto; }
+.header .nav-container > nav { min-width: 0; }
+.header .nav-menu {
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(14px, 2.4vw, 32px);
+}
+.header .nav-menu > li { display: flex; align-items: center; }
+.header .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    white-space: nowrap;
+}
+.theme-toggle-item { display: flex; align-items: center; }
+.theme-toggle {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 12px;
+    border: 1px solid rgba(148, 163, 184, .25);
+    border-radius: 999px;
+    color: var(--text-main);
+    background: rgba(148, 163, 184, .08);
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.theme-toggle:hover { transform: translateY(-1px); border-color: var(--emerald-light); }
+.theme-toggle:focus-visible { outline: 3px solid var(--emerald-main); outline-offset: 3px; }
+.theme-toggle-icon { width: 16px; height: 16px; display: block; }
+.theme-toggle-icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+
+:root[data-theme="light"] .header {
+    background: #dce0d9;
+    border-color: rgba(130, 138, 171, .38);
+    box-shadow: 0 6px 18px rgba(130, 138, 171, .12);
+}
+:root[data-theme="light"] .logo-btn {
+    color: #fff;
+    background: #828aab;
+    box-shadow: 0 8px 22px rgba(130, 138, 171, .25);
+}
+:root[data-theme="light"] .nav-link { color: #242424; }
+:root[data-theme="light"] .nav-link:hover { color: #828aab; }
+:root[data-theme="light"] .nav-link.active { color: #242424; border-color: #828aab; }
+:root[data-theme="light"] .theme-toggle {
+    color: #242424;
+    border-color: #828aab;
+    background: #b1bed5;
+}
+
+/* Palette-based background accents */
+:root[data-theme="light"] .parallax-glow--one,
+:root[data-theme="light"] .parallax-glow--three {
+    background: radial-gradient(circle, rgba(177, 190, 213, .65), transparent 72%);
+    opacity: .5;
+}
+:root[data-theme="light"] .parallax-glow--two {
+    background: radial-gradient(circle, rgba(130, 138, 171, .32), transparent 72%);
+    opacity: .42;
+}
+
+/* Text hierarchy: neutral ink, palette blue for large emphasis */
+:root[data-theme="light"] .main-title,
+:root[data-theme="light"] .main-title span,
+:root[data-theme="light"] .about-hero .main-title span,
+:root[data-theme="light"] .tutorials-hero .main-title span {
+    color: #242424;
+    -webkit-text-fill-color: #242424;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+}
+:root[data-theme="light"] .main-title span { color: #828aab; -webkit-text-fill-color: #828aab; }
+:root[data-theme="light"] h1,
+:root[data-theme="light"] h2,
+:root[data-theme="light"] h3,
+:root[data-theme="light"] h4,
+:root[data-theme="light"] .main-subtitle,
+:root[data-theme="light"] .card-title,
+:root[data-theme="light"] .formula-title,
+:root[data-theme="light"] .formula-equation,
+:root[data-theme="light"] .formula-step strong,
+:root[data-theme="light"] .solution-row strong,
+:root[data-theme="light"] .solution-topic,
+:root[data-theme="light"] .lesson-board > strong,
+:root[data-theme="light"] .about-intro-copy p,
+:root[data-theme="light"] .workflow-card p,
+:root[data-theme="light"] .about-subject-card p,
+:root[data-theme="light"] .about-video-cta p,
+:root[data-theme="light"] .video-card-copy > p,
+:root[data-theme="light"] .video-section-heading p,
+:root[data-theme="light"] .tutorial-result-count { color: #242424; }
+:root[data-theme="light"] .hero-kicker,
+:root[data-theme="light"] .section-kicker,
+:root[data-theme="light"] .section-eyebrow,
+:root[data-theme="light"] .eyebrow,
+:root[data-theme="light"] .footer-copyright,
+:root[data-theme="light"] .footer-contacts,
+:root[data-theme="light"] .footer-contacts a,
+:root[data-theme="light"] .formula-card-top,
+:root[data-theme="light"] .formula-card-index,
+:root[data-theme="light"] .formula-subject,
+:root[data-theme="light"] .formula-step small,
+:root[data-theme="light"] .card-desc,
+:root[data-theme="light"] .subject-copy small,
+:root[data-theme="light"] .formula-desc,
+:root[data-theme="light"] .formula-meta,
+:root[data-theme="light"] .filter-caption,
+:root[data-theme="light"] .result-count,
+:root[data-theme="light"] .tutorials-hero-notes,
+:root[data-theme="light"] .solution-row small,
+:root[data-theme="light"] .about-visual-caption,
+:root[data-theme="light"] .subject-card-index,
+:root[data-theme="light"] .solution-card-top,
+:root[data-theme="light"] .video-card-source,
+:root[data-theme="light"] .video-card-subject,
+:root[data-theme="light"] .case-description,
+:root[data-theme="light"] .output-preview { color: #424242; }
+
+/* Panels and controls */
+:root[data-theme="light"] .card,
+:root[data-theme="light"] .formula-card,
+:root[data-theme="light"] .popular-topics > a,
+:root[data-theme="light"] .subject-switcher,
+:root[data-theme="light"] .subject-btn,
+:root[data-theme="light"] .math-guide,
+:root[data-theme="light"] .math-guide-card,
+:root[data-theme="light"] .periodic-table-section,
+:root[data-theme="light"] .periodic-detail,
+:root[data-theme="light"] .formula-toolbar,
+:root[data-theme="light"] .topic-filter-group,
+:root[data-theme="light"] .formula-card.expanded,
+:root[data-theme="light"] .calculator-panel,
+:root[data-theme="light"] .solution-steps,
+:root[data-theme="light"] .tutorial-filter,
+:root[data-theme="light"] .video-card,
+:root[data-theme="light"] .lesson-board,
+:root[data-theme="light"] .solution-card,
+:root[data-theme="light"] .workflow-card,
+:root[data-theme="light"] .about-subject-card,
+:root[data-theme="light"] .about-intro,
+:root[data-theme="light"] .about-video-cta,
+:root[data-theme="light"] .tutorial-bottom-note,
+:root[data-theme="light"] .map-modal-content,
+:root[data-theme="light"] .calculator-modal-dialog,
+:root[data-theme="light"] .video-modal-dialog {
+    color: #242424;
+    border-color: rgba(130, 138, 171, .38);
+    background: #b1bed5;
+    box-shadow: 0 10px 28px rgba(130, 138, 171, .12);
+}
+:root[data-theme="light"] .subject-switcher,
+:root[data-theme="light"] .about-intro,
+:root[data-theme="light"] .about-video-cta,
+:root[data-theme="light"] .tutorial-bottom-note { background: rgba(177, 190, 213, .58); }
+:root[data-theme="light"] .subject-btn { background: #dce0d9; }
+:root[data-theme="light"] .subject-btn.active,
+:root[data-theme="light"] .tutorial-filter.active,
+:root[data-theme="light"] .case-option.active,
+:root[data-theme="light"] .mode-btn.active { color: #242424; border-color: #828aab; background: #b1bed5; }
+:root[data-theme="light"] .search-input,
+:root[data-theme="light"] .newsletter-input,
+:root[data-theme="light"] .tutorial-search,
+:root[data-theme="light"] .topic-select,
+:root[data-theme="light"] .calc-input,
+:root[data-theme="light"] .answer-format-select,
+:root[data-theme="light"] .answer-precision,
+:root[data-theme="light"] .periodic-search-wrap,
+:root[data-theme="light"] .periodic-search-wrap input,
+:root[data-theme="light"] #periodicSearch {
+    color: #242424;
+    border-color: #828aab;
+    background: #dce0d9;
+}
+:root[data-theme="light"] .search-input::placeholder,
+:root[data-theme="light"] .newsletter-input::placeholder,
+:root[data-theme="light"] .tutorial-search input::placeholder,
+:root[data-theme="light"] .calc-input::placeholder,
+:root[data-theme="light"] .periodic-search-wrap input::placeholder { color: #424242; }
+:root[data-theme="light"] .search-input:focus,
+:root[data-theme="light"] .calc-input:focus,
+:root[data-theme="light"] .tutorial-search:focus-within,
+:root[data-theme="light"] .answer-format-select:focus-visible,
+:root[data-theme="light"] .answer-precision:focus-visible { outline-color: #828aab; border-color: #828aab; box-shadow: 0 0 0 3px rgba(130, 138, 171, .28); }
+:root[data-theme="light"] .search-form {
+    border-color: #828aab;
+    background: #dce0d9;
+    box-shadow: 0 10px 25px rgba(130, 138, 171, .16);
+}
+
+/* Buttons, links and selected states */
+:root[data-theme="light"] .search-btn,
+:root[data-theme="light"] .newsletter-btn,
+:root[data-theme="light"] .calculate-btn,
+:root[data-theme="light"] .formula-load-more,
+:root[data-theme="light"] .about-button--primary,
+:root[data-theme="light"] .tutorial-bottom-link {
+    color: #242424;
+    border-color: #828aab;
+    background: #828aab;
+    box-shadow: 0 6px 16px rgba(130, 138, 171, .2);
+}
+:root[data-theme="light"] .about-button--quiet,
+:root[data-theme="light"] .reset-btn,
+:root[data-theme="light"] .case-option,
+:root[data-theme="light"] .mode-btn,
+:root[data-theme="light"] .carousel-arrow {
+    color: #242424;
+    border-color: #828aab;
+    background: #dce0d9;
+}
+:root[data-theme="light"] .search-suggestions,
+:root[data-theme="light"] .search-suggestions a,
+:root[data-theme="light"] .hero-link,
+:root[data-theme="light"] .section-heading > a,
+:root[data-theme="light"] .about-text-link,
+:root[data-theme="light"] .subject-card-link,
+:root[data-theme="light"] .video-modal-footer a { color: #242424; }
+:root[data-theme="light"] .nav-link.active,
+:root[data-theme="light"] .hero-link,
+:root[data-theme="light"] .section-heading > a,
+:root[data-theme="light"] .about-text-link,
+:root[data-theme="light"] .subject-card-link,
+:root[data-theme="light"] .video-modal-footer a { text-decoration-color: #828aab; }
+
+/* Formula results, solution steps and badges */
+:root[data-theme="light"] .formula-answer,
+:root[data-theme="light"] .result-panel,
+:root[data-theme="light"] .result-box,
+:root[data-theme="light"] .result-card,
+:root[data-theme="light"] .calc-result,
+:root[data-theme="light"] .answer-panel,
+:root[data-theme="light"] .solution-result,
+:root[data-theme="light"] .solution-step .solution-formula,
+:root[data-theme="light"] .formula-view,
+:root[data-theme="light"] .mini-formula,
+:root[data-theme="light"] .answer-format-controls,
+:root[data-theme="light"] .output-preview,
+:root[data-theme="light"] .formula-targets span,
+:root[data-theme="light"] .math-guide-note,
+:root[data-theme="light"] .math-branch-badge,
+:root[data-theme="light"] .about-section-mark,
+:root[data-theme="light"] .workflow-icon,
+:root[data-theme="light"] .tutorial-bottom-icon,
+:root[data-theme="light"] .lesson-play-mark,
+:root[data-theme="light"] .about-float,
+:root[data-theme="light"] .lesson-float {
+    color: #242424;
+    border-color: #828aab;
+    background: #dce0d9;
+}
+:root[data-theme="light"] .formula-answer > span,
+:root[data-theme="light"] .formula-answer strong,
+:root[data-theme="light"] .result-value,
+:root[data-theme="light"] .solution-result strong,
+:root[data-theme="light"] .solution-result > span,
+:root[data-theme="light"] .solution-topic span,
+:root[data-theme="light"] .subject-card-index,
+:root[data-theme="light"] .formula-meta span,
+:root[data-theme="light"] .lesson-board-label,
+:root[data-theme="light"] .video-card-topic,
+:root[data-theme="light"] .video-card-open,
+:root[data-theme="light"] .about-intro-aside strong,
+:root[data-theme="light"] .workflow-arrow,
+:root[data-theme="light"] .graph-eyebrow,
+:root[data-theme="light"] .calculator-modal-eyebrow { color: #242424; }
+:root[data-theme="light"] .solution-result > b,
+:root[data-theme="light"] .formula-answer i,
+:root[data-theme="light"] .about-cta-symbol {
+    color: #242424;
+    border-color: #828aab;
+    background: #b1bed5;
+}
+:root[data-theme="light"] .formula-divider,
+:root[data-theme="light"] .solution-rule,
+:root[data-theme="light"] .lesson-board-rule { background: #828aab; }
+:root[data-theme="light"] .visual-orbit,
+:root[data-theme="light"] .lesson-orbit,
+:root[data-theme="light"] .about-orbit { border-color: rgba(130, 138, 171, .42); }
+:root[data-theme="light"] .live-dot,
+:root[data-theme="light"] .hero-kicker > span { background: #828aab; box-shadow: none; }
+:root[data-theme="light"] .about-subject-card::after { background: rgba(130, 138, 171, .22); }
+
+/* Tutorials and video cards */
+:root[data-theme="light"] .video-card-art,
+:root[data-theme="light"] .video-card-play,
+:root[data-theme="light"] .video-card-open,
+:root[data-theme="light"] .subject-symbol,
+:root[data-theme="light"] .tutorial-search button,
+:root[data-theme="light"] .lesson-float {
+    color: #242424;
+    border-color: #828aab;
+    background: #b1bed5;
+}
+:root[data-theme="light"] .video-card--physics,
+:root[data-theme="light"] .video-card--chemistry { --video-accent: #828aab; }
+:root[data-theme="light"] .subject-symbol--math,
+:root[data-theme="light"] .subject-symbol--physics,
+:root[data-theme="light"] .subject-symbol--chemistry { color: #242424; }
+:root[data-theme="light"] .tutorial-empty { color: #242424; border-color: #828aab; }
+
+/* Modals and scrollbars */
+:root[data-theme="light"] .calculator-modal,
+:root[data-theme="light"] .video-modal,
+:root[data-theme="light"] .map-modal { background: rgba(36, 36, 36, .38); }
+:root[data-theme="light"] .calculator-modal-backdrop,
+:root[data-theme="light"] .video-modal-backdrop,
+:root[data-theme="light"] .map-modal-backdrop { background: rgba(36, 36, 36, .38); }
+:root[data-theme="light"] .calculator-modal-header,
+:root[data-theme="light"] .video-modal-header,
+:root[data-theme="light"] .calculator-modal-footer,
+:root[data-theme="light"] .video-modal-footer { border-color: rgba(130, 138, 171, .38); color: #242424; }
+:root[data-theme="light"] .calculator-modal-close,
+:root[data-theme="light"] .video-modal-close { color: #242424; background: #dce0d9; }
+:root[data-theme="light"] .video-modal-player { background: #242424; }
+:root[data-theme="light"] .periodic-table-section *,
+:root[data-theme="light"] .calculator-modal-dialog *,
+:root[data-theme="light"] .video-modal-dialog * { scrollbar-color: #828aab #dce0d9; }
+
+@media (max-width: 1080px) {
+    .header .nav-container { gap: 14px; }
+    .header .nav-menu { gap: clamp(12px, 1.7vw, 18px); }
+    .header .nav-link { font-size: .92rem; }
+    .theme-toggle { padding-right: 10px; padding-left: 10px; }
+}
+@media (max-width: 760px) {
+    .header .nav-container {
+        height: auto;
+        min-height: 80px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px 16px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+    .header .nav-container > nav { width: 100%; }
+    .header .nav-menu { justify-content: center; gap: 6px 16px; }
+}
+@media (max-width: 600px) {
+    .header .nav-menu { justify-content: flex-end; gap: 6px 12px; }
+    .theme-toggle { min-height: 32px; padding-right: 9px; padding-left: 9px; font-size: .7rem; }
+    .theme-toggle-icon { width: 14px; height: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle { transition: none; }
+}
+:root[data-theme="light"] .formula-subject span,
+:root[data-theme="light"] .formula-step > span,
+:root[data-theme="light"] .formula-icon,
+:root[data-theme="light"] .subject-count,
+:root[data-theme="light"] .solution-step-index,
+:root[data-theme="light"] .periodic-detail-icon {
+    color: #242424;
+    border-color: #828aab;
+    background: #dce0d9;
+}
+:root[data-theme="light"] .formula-subject span,
+:root[data-theme="light"] .formula-meta span,
+:root[data-theme="light"] .icon-attribution a { color: #242424; }
+:root[data-theme="light"] .icon-attribution a { text-decoration-color: #828aab; }
+:root[data-theme="light"] .formula-icon img { filter: grayscale(1); }
+:root[data-theme="light"] .element-cell,
+:root[data-theme="light"] .element-cell.block-s,
+:root[data-theme="light"] .element-cell.block-p,
+:root[data-theme="light"] .element-cell.block-d,
+:root[data-theme="light"] .element-cell.block-f {
+    color: #242424;
+    border-color: #828aab;
+    background: #dce0d9;
+}
+:root[data-theme="light"] .element-cell strong,
+:root[data-theme="light"] .element-number,
+:root[data-theme="light"] .element-name,
+:root[data-theme="light"] .element-cell small,
+:root[data-theme="light"] .periodic-detail-placeholder,
+:root[data-theme="light"] .periodic-legend { color: #242424; }
+:root[data-theme="light"] .legend-dot,
+:root[data-theme="light"] .legend-dot.block-s,
+:root[data-theme="light"] .legend-dot.block-p,
+:root[data-theme="light"] .legend-dot.block-d,
+:root[data-theme="light"] .legend-dot.block-f { border-color: #828aab; background: #b1bed5; }
+:root[data-theme="light"] .about-hero-visual::before,
+:root[data-theme="light"] .about-subject-card::after { background: rgba(130, 138, 171, .24); }
+:root[data-theme="light"] .about-hero .main-title span,
+:root[data-theme="light"] .tutorials-hero .main-title span { color: #828aab; -webkit-text-fill-color: #828aab; }
+:root[data-theme="light"] .calc-message.success,
+:root[data-theme="light"] .calc-message.error {
+    color: #242424;
+    border-color: #828aab;
+    background: #b1bed5;
+}
+:root[data-theme="light"] .element-cell.search-match { border-color: #828aab; box-shadow: 0 0 12px rgba(130, 138, 171, .28); }
+:root[data-theme="light"] ::-webkit-scrollbar-corner { background: #dce0d9; }
