@@ -6,6 +6,8 @@ const layers = [
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+window.__unicalcParallaxCleanup?.();
+
 if (layers.length && !reduceMotion.matches) {
   let frameRequested = false;
 
@@ -20,18 +22,24 @@ if (layers.length && !reduceMotion.matches) {
     frameRequested = false;
   };
 
-  window.addEventListener('scroll', () => {
+  const onScroll = () => {
     if (frameRequested) return;
 
     frameRequested = true;
     window.requestAnimationFrame(updateParallax);
-  }, { passive: true });
-  window.addEventListener('resize', () => {
+  };
+  const onResize = () => {
     if (!frameRequested) {
       frameRequested = true;
       window.requestAnimationFrame(updateParallax);
     }
-  }, { passive: true });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onResize, { passive: true });
+  window.__unicalcParallaxCleanup = () => {
+    window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('resize', onResize);
+  };
 
   updateParallax();
 }

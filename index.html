@@ -11,6 +11,7 @@
         
     </style>
     <link rel="stylesheet" href="src/theme.css">
+    <link rel="stylesheet" href="src/music.css">
 </head>
 <body>
 
@@ -179,49 +180,10 @@
         </div>
     </div>
 
-    <!-- Скрипт для управления модальным окном -->
-    <script>
-        const mapBtn = document.getElementById('mapBtn');
-        const mapModal = document.getElementById('mapModal');
-        const closeMapBtn = document.getElementById('closeMapBtn');
-        let mapReturnFocus = null;
-
-        const closeMap = () => {
-            mapModal.style.display = 'none';
-            mapModal.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('map-open');
-            if (mapReturnFocus) mapReturnFocus.focus({ preventScroll: true });
-            mapReturnFocus = null;
-        };
-
-        mapBtn.addEventListener('click', () => {
-            mapReturnFocus = mapBtn;
-            mapModal.style.display = 'flex';
-            mapModal.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('map-open');
-            closeMapBtn.focus({ preventScroll: true });
-        });
-
-        closeMapBtn.addEventListener('click', closeMap);
-
-        mapModal.addEventListener('click', event => {
-            if (event.target === mapModal) closeMap();
-        });
-
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape' && mapModal.getAttribute('aria-hidden') === 'false') closeMap();
-        });
-
-        document.getElementById('homeSearchForm').addEventListener('submit', event => {
-            const input = document.getElementById('homeSearchInput');
-            input.value = input.value.trim();
-            if (!input.value) {
-                event.preventDefault();
-                input.focus();
-            }
-        });
-    </script>
+    <script type="module" src="src/index.js"></script>
     <script type="module" src="src/parallax.js"></script>
+    <script type="module" src="src/music.js"></script>
+    <script type="module" src="src/music-navigation.js"></script>
 
     <script src="src/theme.js" defer></script>
 

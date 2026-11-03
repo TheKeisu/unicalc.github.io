@@ -1021,7 +1021,7 @@ function setupCalculatorModal() {
   modal.addEventListener('click', event => {
     if (event.target === modal || event.target.closest('[data-modal-dismiss]')) close();
   });
-  document.addEventListener('keydown', event => {
+  dialog.addEventListener('keydown', event => {
     if (modal.hidden) return;
     if (event.key === 'Escape') {
       event.preventDefault();
@@ -1248,7 +1248,8 @@ function setup() {
 };
 
 if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', setup);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup, { once: true });
+  else setup();
 }
 
 export { ALL_FORMULAS, EXTRA_FORMULAS, REACTION_EQUATION, UNIT_HINTS, inferUnit };

@@ -26,7 +26,9 @@ const applyTheme = (theme) => {
 };
 
 applyTheme(readTheme());
-document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+window.__unicalcApplyTheme = () => applyTheme(readTheme());
+document.addEventListener('click', event => {
+  if (!event.target.closest('[data-theme-toggle]')) return;
   const nextTheme = root.dataset.theme === 'light' ? 'dark' : 'light';
   try {
     localStorage.setItem(storageKey, nextTheme);

@@ -107,6 +107,11 @@ function createVideoCard(video) {
 }
 
 function initTutorials() {
+  if (!document.querySelector('.tutorials-page')) return;
+  window.__unicalcTutorialCleanup?.();
+  const cleanup = [];
+  window.__unicalcTutorialCleanup = () => cleanup.splice(0).forEach(dispose => dispose());
+
   const tracks = [...document.querySelectorAll('[data-video-track]')];
   const sections = [...document.querySelectorAll('[data-subject-section]')];
   const filters = [...document.querySelectorAll('.tutorial-filter')];
@@ -149,7 +154,9 @@ function initTutorials() {
       });
     });
     track.addEventListener('scroll', () => updateCarouselControls(section), { passive: true });
-    window.addEventListener('resize', () => updateCarouselControls(section), { passive: true });
+    const updateOnResize = () => updateCarouselControls(section);
+    window.addEventListener('resize', updateOnResize, { passive: true });
+    cleanup.push(() => window.removeEventListener('resize', updateOnResize));
   });
 
   const applyFilters = () => {
@@ -222,7 +229,7 @@ function initTutorials() {
     closeButton.focus({ preventScroll: true });
   };
 
-  document.addEventListener('click', event => {
+  document.querySelector('.tutorials-page')?.addEventListener('click', event => {
     const trigger = event.target.closest('.video-card-open');
     if (trigger) openVideo(trigger);
   });
@@ -230,7 +237,7 @@ function initTutorials() {
   modal.addEventListener('click', event => {
     if (event.target === modal || event.target.closest('[data-video-dismiss]')) closeVideo();
   });
-  document.addEventListener('keydown', event => {
+  dialog.addEventListener('keydown', event => {
     if (!modal.hidden && event.key === 'Escape') {
       event.preventDefault();
       closeVideo();
@@ -240,4 +247,5 @@ function initTutorials() {
   applyFilters();
 }
 
-document.addEventListener('DOMContentLoaded', initTutorials);
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initTutorials, { once: true });
+else initTutorials();
