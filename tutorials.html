@@ -116,6 +116,29 @@
             </div>
         </section>
 
+        <section class="quiz-section" id="quiz" aria-labelledby="quizTitle">
+            <div class="tutorial-catalog-heading">
+                <div>
+                    <span class="section-kicker">ПРОВЕРЬ СЕБЯ</span>
+                    <h2 id="quizTitle">Закрепи знания</h2>
+                </div>
+                <p>Вопросы собраны по темам видеоуроков. Отвечай, читай разбор и возвращайся к уроку, если что-то осталось неясным.</p>
+            </div>
+
+            <div class="tutorial-toolbar">
+                <div class="tutorial-subject-filters" role="group" aria-label="Предмет для опросника">
+                    <button class="quiz-filter active" type="button" data-quiz-subject="all" aria-pressed="true">Все предметы</button>
+                    <button class="quiz-filter" type="button" data-quiz-subject="math" aria-pressed="false">Математика</button>
+                    <button class="quiz-filter" type="button" data-quiz-subject="physics" aria-pressed="false">Физика</button>
+                    <button class="quiz-filter" type="button" data-quiz-subject="chemistry" aria-pressed="false">Химия</button>
+                </div>
+            </div>
+            <p class="tutorial-result-count" id="quizCount"></p>
+
+            <div class="quiz-card" id="quizCard"></div>
+            <p class="visually-hidden" id="quizAnnouncer" aria-live="polite"></p>
+        </section>
+
         <section class="tutorial-bottom-note">
             <span class="tutorial-bottom-icon" aria-hidden="true">∴</span>
             <div><span class="section-kicker">СМОТРИ И ПРАКТИКУЙСЯ</span><h2>Закрепи урок на примере</h2><p>После видео открой калькулятор и проверь, как формула работает с конкретными числами.</p></div>
